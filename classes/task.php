@@ -8,7 +8,7 @@ class Task
     const STATUS_DONE = 'done';
     const STATUS_FAILED = 'failed';
 
-    public $status_names = [
+    const STATUS_NAMES = [
         "new" => "Новое",
         "cancelled" => "Отменено",
         "in_progress" => "В работе",
@@ -16,14 +16,14 @@ class Task
         "failed" => "Провалено"
     ];
 
-    public $action_names = [
+    const ACTION_NAMES = [
         "cancel" => "Отменить", 
         "respond" => "Откликнуться",
         "completed" => "Выполнено",
         "refuse" => "Отказаться" 
     ];
 
-    private $task_actions = [
+    const TASK_ACTIONS = [
         "new" => [
             "customer" => [
                 "cancel",
@@ -37,7 +37,7 @@ class Task
         ]
     ];
 
-    private $next_statuses = [
+    const NEXT_STATUS = [
         "new" => [
             "cancelled",
             "in_progress"
@@ -48,7 +48,7 @@ class Task
         ]
     ];
 
-    private $results_of_actions = [
+    const RESULT_OF_ACTIONS = [
         "respond" => "new",
         "cancel" => "cancelled",
         "to_work" => "in_progress",
@@ -56,12 +56,12 @@ class Task
         "refuse" => "failed"
     ];
 
-    private $current_status = null;
-
-    public function __construct(int $customer_id, int $employe_id)
+  
+    public function __construct(int $customer_id, int $employe_id, string $current_status)
     {
        $this->customer_id = $customer_id;
        $this->employe_id = $employe_id;
+       $this->current_status = $current_status;
     }
 
     
@@ -71,17 +71,9 @@ class Task
     * @return ?string
     *
     */
-    public function GetNextStatus(string $action): ?string
+    public function getNextStatus(string $action): ?string
     {
-        foreach($this->results_of_actions as $key => $result){
-            if($action === $key) {
-
-                $this->current_status = $result;
-
-                return $result;
-            }
-        }
-        return null;
+        return $this->RESULT_OF_ACTIONS[$action] ?? null;
     }
 
     /**
@@ -90,16 +82,10 @@ class Task
     * @return ?array 
     *
     */
-    public function GetActionsStatus(string $status): ?array 
+    public function getActionsStatus(string $status): ?array 
     {
 
-        foreach($this->task_actions as $key => $action){
-            if($status === $key) {
-
-                return $action;
-            }
-        }
-        return null;
+        return $this->TASK_ACTIONS[$status] ?? null;
     }
 
 };
