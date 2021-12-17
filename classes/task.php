@@ -1,4 +1,5 @@
 <?php 
+namespace common;
 
 class Task 
 {
@@ -73,7 +74,7 @@ class Task
     */
     public function getNextStatus(string $action): ?string
     {
-        return $this->RESULT_OF_ACTIONS[$action] ?? null;
+        return $this::RESULT_OF_ACTIONS[$action] ?? null;
     }
 
     /**
@@ -82,10 +83,10 @@ class Task
     * @return ?array 
     *
     */
-    public function getActionsStatus(string $status): ?array 
+    public function getActionsStatus(string $status)
     {
 
-        return $this->TASK_ACTIONS[$status] ?? null;
+        return $this::TASK_ACTIONS[$status] ?? null;
     }
 
 };
