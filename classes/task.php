@@ -1,14 +1,15 @@
-<?php 
+<?php
 
-class Task 
+
+class Task
 {
-    const STATUS_NEW = 'new';
-    const STATUS_CANCELLED = 'cancelled';
-    const STATUS_IN_PROGRESS = 'in_progress';
-    const STATUS_DONE = 'done';
-    const STATUS_FAILED = 'failed';
+    public const STATUS_NEW = 'new';
+    public const STATUS_CANCELLED = 'cancelled';
+    public const STATUS_IN_PROGRESS = 'in_progress';
+    public const STATUS_DONE = 'done';
+    public const STATUS_FAILED = 'failed';
 
-    const STATUS_NAMES = [
+    public const STATUS_NAMES = [
         "new" => "Новое",
         "cancelled" => "Отменено",
         "in_progress" => "В работе",
@@ -16,28 +17,28 @@ class Task
         "failed" => "Провалено"
     ];
 
-    const ACTION_NAMES = [
-        "cancel" => "Отменить", 
+    public const ACTION_NAMES = [
+        "cancel" => "Отменить",
         "respond" => "Откликнуться",
         "completed" => "Выполнено",
-        "refuse" => "Отказаться" 
+        "refuse" => "Отказаться"
     ];
 
-    const TASK_ACTIONS = [
+    public const TASK_ACTIONS = [
         "new" => [
             "customer" => [
                 "cancel",
                 "to_work"
             ],
-            "employee" => "respond"
+            "executor" => ["respond"]
         ],
         "in_progress" => [
             "customer" => "completed",
-            "employe" => "refuse"
+            "executor" => "refuse"
         ]
     ];
 
-    const NEXT_STATUS = [
+    public const NEXT_STATUS = [
         "new" => [
             "cancelled",
             "in_progress"
@@ -48,7 +49,7 @@ class Task
         ]
     ];
 
-    const RESULT_OF_ACTIONS = [
+    public const RESULT_OF_ACTIONS = [
         "respond" => "new",
         "cancel" => "cancelled",
         "to_work" => "in_progress",
@@ -56,49 +57,62 @@ class Task
         "refuse" => "failed"
     ];
 
-  
-    public function __construct(int $customer_id, int $employe_id, string $current_status)
+
+    public function __construct(int $customer_id, int $executor_id, string $code_status)
     {
-       $this->customer_id = $customer_id;
-       $this->employe_id = $employe_id;
-       $this->current_status = $current_status;
+        $this->customer_id = $customer_id;
+        $this->executor_id = $executor_id;
+        $this->code_status = $code_status;
     }
 
-    
+
     /**
-    * Возвращает статус, в который возможен переход при действие указанном в параметере
-    * @param string $action Строка, содержащая наименование действия
+    * Возвращает код статуса, в который возможен переход при действие указанном в параметере
+    * @param string $action Строка, содержащая код действия
     * @return ?string
     *
     */
-    public function getNextStatus(string $action): ?string
+    public function getNextStatus(string $code_action): ?string
     {
-        return $this::RESULT_OF_ACTIONS[$action] ?? null;
+        return $this::RESULT_OF_ACTIONS[$code_action] ?? null;
     }
 
     /**
-    * Возвращает список действий, которые возможны в статусе указанном в параметре
-    * @param string $status Строка, содержащая наименование статуса
-    * @return ?array 
+    * Возвращает массив кодов действий, которые возможны в статусе, указанном в параметре
+    * @param string $code_status Строка, содержащая код статуса
+    * @return ?array
     *
     */
-    public function getActionsStatus(string $status)
+    public function getActionsStatus(string $code_status, int $current_user_id): ?array
     {
+        if ($current_user_id === $this->customer_id) {
+            return $this::TASK_ACTIONS[$code_status]["customer"] ?? null;
+        }
+        if ($current_user_id === $this->executor_id) {
+            return $this::TASK_ACTIONS[$code_status]["executor"] ?? null;
+        }
 
-        return $this::TASK_ACTIONS[$status] ?? null;
+        return null;
     }
 
+    /**
+    * Возвращает наименование статуса, указанного в параметре экземпляра класса
+    * @return ?string
+    *
+    */
+    public function getStatusName(): ?string
+    {
+        return $this::STATUS_NAMES[$this->code_status] ?? null;
+    }
+
+    /**
+    * Возвращает наименование действия, по коду статуса, указанного в параметре
+    * @param string $code_action Строка, содержащая код действия
+    * @return ?string
+    *
+    */
+    public function getActionName(string $code_action): ?string
+    {
+        return $this::ACTION_NAMES[$code_action] ?? null;
+    }
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
