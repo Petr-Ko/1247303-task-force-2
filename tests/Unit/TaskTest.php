@@ -4,7 +4,7 @@ namespace Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 
-use TaskForce\Task;
+use TaskForce\classes\Task;
 
 class TaskTest extends TestCase
 {
