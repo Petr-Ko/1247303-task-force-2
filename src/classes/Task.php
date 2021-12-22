@@ -1,5 +1,6 @@
 <?php
 
+namespace TaskForce\classes;
 
 class Task
 {

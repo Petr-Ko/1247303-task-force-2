@@ -2,11 +2,9 @@
 
 namespace Tests\Unit;
 
-require  __DIR__. "/../../classes/Task.php";
-
 use PHPUnit\Framework\TestCase;
 
-use Task;
+use TaskForce\classes\Task;
 
 class TaskTest extends TestCase
 {
