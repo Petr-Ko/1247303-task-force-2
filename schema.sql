@@ -20,12 +20,12 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `category_list`
+-- Структура таблицы `categories`
 --
 
-CREATE TABLE `category_list` (
+CREATE TABLE `categories` (
   `id` int NOT NULL,
-  `name` text COLLATE utf8_unicode_ci NOT NULL
+  `name` varchar(50) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -36,17 +36,17 @@ CREATE TABLE `category_list` (
 
 CREATE TABLE `cities` (
   `id` int NOT NULL,
-  `city` text COLLATE utf8_unicode_ci NOT NULL,
+  `name` text COLLATE utf8_unicode_ci NOT NULL,
   `location` point NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `executor_category_ratio`
+-- Структура таблицы `executor_categories`
 --
 
-CREATE TABLE `executor_category_ratio` (
+CREATE TABLE `executor_categories` (
   `id` int NOT NULL,
   `executor_id` int NOT NULL,
   `category_id` int NOT NULL
@@ -55,10 +55,10 @@ CREATE TABLE `executor_category_ratio` (
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `file_paths`
+-- Структура таблицы `files`
 --
 
-CREATE TABLE `file_paths` (
+CREATE TABLE `files` (
   `id` int NOT NULL,
   `add_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `path` varchar(256) COLLATE utf8_unicode_ci NOT NULL
@@ -77,7 +77,7 @@ CREATE TABLE `responses` (
   `executor_id` int NOT NULL,
   `price` int NOT NULL,
   `descrpiption` text CHARACTER SET utf8 NOT NULL,
-  `rejected` tinyint(1) NOT NULL
+  `rejected` boolean NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -92,7 +92,7 @@ CREATE TABLE `reviews` (
   `task_id` int NOT NULL,
   `author_id` int NOT NULL,
   `score` int NOT NULL,
-  `review_text` text CHARACTER SET utf8 NOT NULL,
+  `text` text CHARACTER SET utf8 NOT NULL,
   `user_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
 
@@ -105,7 +105,7 @@ CREATE TABLE `reviews` (
 CREATE TABLE `tasks` (
   `id` int NOT NULL,
   `add_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `status_code` int NOT NULL,
+  `status` int NOT NULL,
   `customer_id` int NOT NULL,
   `tilte` varchar(256) CHARACTER SET utf8 NOT NULL,
   `description` text CHARACTER SET utf8 NOT NULL,
@@ -113,7 +113,7 @@ CREATE TABLE `tasks` (
   `end_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `price` int NOT NULL,
   `category_id` int NOT NULL,
-  `executor_id` int NOT NULL
+  `executor_id` int
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -125,7 +125,7 @@ CREATE TABLE `tasks` (
 CREATE TABLE `task_files` (
   `id` int NOT NULL,
   `task_id` int NOT NULL,
-  `file_path_id` int NOT NULL
+  `file_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -145,9 +145,8 @@ CREATE TABLE `users` (
   `city_id` int NOT NULL,
   `information` text COLLATE utf8_unicode_ci,
   `birthday` date NOT NULL,
-  `avatar_link_id` varchar(256) COLLATE utf8_unicode_ci NOT NULL,
-  `executor` tinyint(1) NOT NULL,
-  `id_executor_status` int NOT NULL
+  `avatar_file_id` varchar(256) COLLATE utf8_unicode_ci NOT NULL,
+  `is_executor` boolean NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
 
 --
@@ -155,31 +154,32 @@ CREATE TABLE `users` (
 --
 
 --
--- Индексы таблицы `category_list`
+-- Индексы таблицы `categories`
 --
-ALTER TABLE `category_list`
+ALTER TABLE `categories`
   ADD PRIMARY KEY (`id`);
-ALTER TABLE `category_list` ADD FULLTEXT KEY `name` (`name`);
+ALTER TABLE `categories` ADD FULLTEXT KEY `name` (`name`);
 
 --
 -- Индексы таблицы `cities`
 --
 ALTER TABLE `cities`
   ADD PRIMARY KEY (`id`);
-ALTER TABLE `cities` ADD FULLTEXT KEY `city` (`city`);
+ALTER TABLE `cities` ADD FULLTEXT KEY `name` (`name`);
 
 --
--- Индексы таблицы `executor_category_ratio`
+-- Индексы таблицы `executor_categories`
 --
-ALTER TABLE `executor_category_ratio`
-  ADD PRIMARY KEY (`id`),
+ALTER TABLE `executor_categories`
+  ADD PRIMARY KEY (`id`);
+ALTER TABLE `executor_categories`
   ADD KEY `executor_id` (`executor_id`),
   ADD KEY `category_id` (`category_id`);
 
 --
--- Индексы таблицы `file_paths`
+-- Индексы таблицы `files`
 --
-ALTER TABLE `file_paths`
+ALTER TABLE `files`
   ADD PRIMARY KEY (`id`),
   ADD KEY `add_date` (`add_date`),
   ADD KEY `path` (`path`);
@@ -206,7 +206,7 @@ ALTER TABLE `reviews`
   ADD KEY `author_id` (`author_id`),
   ADD KEY `score` (`score`),
   ADD KEY `user_id` (`user_id`);
-ALTER TABLE `reviews` ADD FULLTEXT KEY `review_text` (`review_text`);
+ALTER TABLE `reviews` ADD FULLTEXT KEY `text` (`text`);
 
 --
 -- Индексы таблицы `tasks`
@@ -214,7 +214,7 @@ ALTER TABLE `reviews` ADD FULLTEXT KEY `review_text` (`review_text`);
 ALTER TABLE `tasks`
   ADD PRIMARY KEY (`id`),
   ADD KEY `add_date` (`add_date`),
-  ADD KEY `status_code` (`status_code`),
+  ADD KEY `status` (`status`),
   ADD KEY `customer_id` (`customer_id`),
   ADD KEY `tilte` (`tilte`),
   ADD SPATIAL KEY `location` (`location`),
@@ -230,12 +230,13 @@ ALTER TABLE `tasks` ADD FULLTEXT KEY `description` (`description`);
 ALTER TABLE `task_files`
   ADD PRIMARY KEY (`id`),
   ADD KEY `task_id` (`task_id`),
-  ADD KEY `file_path_id` (`file_path_id`);
+  ADD KEY `file_id` (`file_id`);
 
 --
 -- Индексы таблицы `users`
 --
 ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
   ADD KEY `registration_date` (`registration_date`),
   ADD KEY `password_hash` (`password_hash`),
   ADD KEY `email` (`email`(256)),
@@ -243,9 +244,8 @@ ALTER TABLE `users`
   ADD KEY `telegram` (`telegram`(256)),
   ADD KEY `city_id` (`city_id`),
   ADD KEY `birthday` (`birthday`),
-  ADD KEY `avatar_link_id` (`avatar_link_id`),
-  ADD KEY `executor` (`executor`),
-  ADD KEY `id_executor_status` (`id_executor_status`);
+  ADD KEY `avatar_file_id` (`avatar_file_id`),
+  ADD KEY `is_executor` (`is_executor`);
 ALTER TABLE `users` ADD FULLTEXT KEY `name` (`name`);
 ALTER TABLE `users` ADD FULLTEXT KEY `information` (`information`);
 COMMIT;
