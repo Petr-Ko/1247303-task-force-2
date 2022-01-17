@@ -154,18 +154,59 @@ CREATE TABLE `users` (
 --
 
 --
+-- Индексы таблицы `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `registration_date` (`registration_date`),
+  ADD KEY `password_hash` (`password_hash`),
+  ADD KEY `email` (`email`(256)),
+  ADD KEY `phone` (`phone`(256)),
+  ADD KEY `telegram` (`telegram`(256)),
+  ADD KEY `city_id` (`city_id`),
+  ADD KEY `birthday` (`birthday`),
+  ADD KEY `avatar_file_id` (`avatar_file_id`),
+  ADD KEY `is_executor` (`is_executor`);
+ALTER TABLE `users` ADD 
+  FULLTEXT KEY `name` (`name`);
+ALTER TABLE `users` ADD 
+  FULLTEXT KEY `information` (`information`);
+
+--
 -- Индексы таблицы `categories`
 --
 ALTER TABLE `categories`
   ADD PRIMARY KEY (`id`);
-ALTER TABLE `categories` ADD FULLTEXT KEY `name` (`name`);
+ALTER TABLE `categories` 
+  ADD FULLTEXT KEY `name` (`name`);
+
+--
+-- Индексы таблицы `tasks`
+--
+ALTER TABLE `tasks`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `add_date` (`add_date`),
+  ADD KEY `status` (`status`),
+  ADD KEY `tilte` (`tilte`),
+  ADD SPATIAL KEY `location` (`location`),
+  ADD KEY `end_date` (`end_date`),
+  ADD KEY `price` (`price`);
+ALTER TABLE `tasks` 
+  ADD FULLTEXT KEY `description` (`description`);
+ALTER TABLE `tasks`
+  ADD FOREIGN KEY `customer_id` (`customer_id`) REFERENCES `users` (`id`);
+ALTER TABLE `tasks`
+  ADD FOREIGN KEY `category_id` (`category_id`) REFERENCES `categories` (`id`);
+ALTER TABLE `tasks`
+  ADD FOREIGN KEY `executor_id` (`executor_id`) REFERENCES `users` (`id`);
 
 --
 -- Индексы таблицы `cities`
 --
 ALTER TABLE `cities`
   ADD PRIMARY KEY (`id`);
-ALTER TABLE `cities` ADD FULLTEXT KEY `name` (`name`);
+ALTER TABLE `cities` 
+  ADD FULLTEXT KEY `name` (`name`);
 
 --
 -- Индексы таблицы `executor_categories`
@@ -173,8 +214,9 @@ ALTER TABLE `cities` ADD FULLTEXT KEY `name` (`name`);
 ALTER TABLE `executor_categories`
   ADD PRIMARY KEY (`id`);
 ALTER TABLE `executor_categories`
-  ADD KEY `executor_id` (`executor_id`),
-  ADD KEY `category_id` (`category_id`);
+  ADD FOREIGN KEY `executor_id` (`executor_id`) REFERENCES `users` (`id`);
+ALTER TABLE `executor_categories`
+  ADD FOREIGN KEY `category_id` (`category_id`) REFERENCES `categories` (`id`);
 
 --
 -- Индексы таблицы `files`
@@ -190,11 +232,13 @@ ALTER TABLE `files`
 ALTER TABLE `responses`
   ADD PRIMARY KEY (`id`),
   ADD KEY `add_date` (`add_date`),
-  ADD KEY `task_id` (`task_id`),
-  ADD KEY `executor_id` (`executor_id`),
   ADD KEY `price` (`price`),
   ADD KEY `descrpiption` (`descrpiption`(256)),
   ADD KEY `rejected` (`rejected`);
+ALTER TABLE `responses`
+  ADD FOREIGN KEY `task_id` (`task_id`) REFERENCES `tasks` (`id`);
+ALTER TABLE `responses`
+  ADD FOREIGN KEY `executor_id` (`executor_id`) REFERENCES `users` (`id`);
 
 --
 -- Индексы таблицы `reviews`
@@ -202,52 +246,26 @@ ALTER TABLE `responses`
 ALTER TABLE `reviews`
   ADD PRIMARY KEY (`id`),
   ADD KEY `add_date` (`add_date`),
-  ADD KEY `task_id` (`task_id`),
-  ADD KEY `author_id` (`author_id`),
-  ADD KEY `score` (`score`),
-  ADD KEY `user_id` (`user_id`);
-ALTER TABLE `reviews` ADD FULLTEXT KEY `text` (`text`);
-
---
--- Индексы таблицы `tasks`
---
-ALTER TABLE `tasks`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `add_date` (`add_date`),
-  ADD KEY `status` (`status`),
-  ADD KEY `customer_id` (`customer_id`),
-  ADD KEY `tilte` (`tilte`),
-  ADD SPATIAL KEY `location` (`location`),
-  ADD KEY `end_date` (`end_date`),
-  ADD KEY `price` (`price`),
-  ADD KEY `category_id` (`category_id`),
-  ADD KEY `executor_id` (`executor_id`);
-ALTER TABLE `tasks` ADD FULLTEXT KEY `description` (`description`);
+  ADD KEY `score` (`score`);
+ALTER TABLE `reviews` 
+  ADD FULLTEXT KEY `text` (`text`);
+ALTER TABLE `reviews`
+  ADD FOREIGN KEY `task_id` (`task_id`) REFERENCES `tasks` (`id`);
+ALTER TABLE `reviews`
+  ADD FOREIGN KEY `user_id` (`user_id`) REFERENCES `users` (`id`);
+ALTER TABLE `reviews`
+  ADD FOREIGN KEY `author_id` (`author_id`) REFERENCES `users` (`id`);
 
 --
 -- Индексы таблицы `task_files`
 --
 ALTER TABLE `task_files`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `task_id` (`task_id`),
-  ADD KEY `file_id` (`file_id`);
+  ADD PRIMARY KEY (`id`);
+ALTER TABLE `task_files`
+  ADD FOREIGN KEY `task_id` (`task_id`) REFERENCES `tasks` (`id`);
+ALTER TABLE `task_files`
+  ADD FOREIGN KEY `file_id` (`file_id`) REFERENCES `files` (`id`);
 
---
--- Индексы таблицы `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `registration_date` (`registration_date`),
-  ADD KEY `password_hash` (`password_hash`),
-  ADD KEY `email` (`email`(256)),
-  ADD KEY `phone` (`phone`(256)),
-  ADD KEY `telegram` (`telegram`(256)),
-  ADD KEY `city_id` (`city_id`),
-  ADD KEY `birthday` (`birthday`),
-  ADD KEY `avatar_file_id` (`avatar_file_id`),
-  ADD KEY `is_executor` (`is_executor`);
-ALTER TABLE `users` ADD FULLTEXT KEY `name` (`name`);
-ALTER TABLE `users` ADD FULLTEXT KEY `information` (`information`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
