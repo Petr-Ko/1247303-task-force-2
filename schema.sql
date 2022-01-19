@@ -36,7 +36,7 @@ CREATE TABLE `categories` (
 
 CREATE TABLE `cities` (
   `id` int NOT NULL,
-  `name` text COLLATE utf8_unicode_ci NOT NULL,
+  `name` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `location` point NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
 
@@ -107,11 +107,11 @@ CREATE TABLE `tasks` (
   `add_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `status` int NOT NULL,
   `customer_id` int NOT NULL,
-  `tilte` varchar(256) CHARACTER SET utf8 NOT NULL,
+  `tilte` varchar(50) CHARACTER SET utf8 NOT NULL,
   `description` text CHARACTER SET utf8 NOT NULL,
   `location` point NOT NULL,
   `end_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `price` int NOT NULL,
+  `price` int,
   `category_id` int NOT NULL,
   `executor_id` int
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
@@ -136,8 +136,8 @@ CREATE TABLE `task_files` (
 
 CREATE TABLE `users` (
   `id` int NOT NULL,
-  `registration_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `name` text COLLATE utf8_unicode_ci NOT NULL,
+  `add_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `name` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `password_hash` varchar(60) COLLATE utf8_unicode_ci NOT NULL,
   `email` text COLLATE utf8_unicode_ci NOT NULL,
   `phone` text COLLATE utf8_unicode_ci NOT NULL,
@@ -145,7 +145,7 @@ CREATE TABLE `users` (
   `city_id` int NOT NULL,
   `information` text COLLATE utf8_unicode_ci,
   `birthday` date NOT NULL,
-  `avatar_file_id` varchar(256) COLLATE utf8_unicode_ci NOT NULL,
+  `avatar_file_id` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `is_executor` boolean NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
 
@@ -158,27 +158,24 @@ CREATE TABLE `users` (
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `registration_date` (`registration_date`),
+  ADD KEY `add_date` (`add_date`),
   ADD KEY `password_hash` (`password_hash`),
   ADD KEY `email` (`email`(256)),
   ADD KEY `phone` (`phone`(256)),
   ADD KEY `telegram` (`telegram`(256)),
   ADD KEY `city_id` (`city_id`),
-  ADD KEY `birthday` (`birthday`),
   ADD KEY `avatar_file_id` (`avatar_file_id`),
-  ADD KEY `is_executor` (`is_executor`);
-ALTER TABLE `users` ADD 
-  FULLTEXT KEY `name` (`name`);
-ALTER TABLE `users` ADD 
-  FULLTEXT KEY `information` (`information`);
+  ADD KEY `is_executor` (`is_executor`),
+  ADD KEY `name` (`name`);
+ALTER TABLE `users` 
+  ADD FULLTEXT KEY `information` (`information`);
 
 --
 -- Индексы таблицы `categories`
 --
 ALTER TABLE `categories`
-  ADD PRIMARY KEY (`id`);
-ALTER TABLE `categories` 
-  ADD FULLTEXT KEY `name` (`name`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `name` (`name`);
 
 --
 -- Индексы таблицы `tasks`
@@ -204,9 +201,8 @@ ALTER TABLE `tasks`
 -- Индексы таблицы `cities`
 --
 ALTER TABLE `cities`
-  ADD PRIMARY KEY (`id`);
-ALTER TABLE `cities` 
-  ADD FULLTEXT KEY `name` (`name`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `name` (`name`);
 
 --
 -- Индексы таблицы `executor_categories`
@@ -223,7 +219,6 @@ ALTER TABLE `executor_categories`
 --
 ALTER TABLE `files`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `add_date` (`add_date`),
   ADD KEY `path` (`path`);
 
 --
