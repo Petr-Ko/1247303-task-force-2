@@ -153,7 +153,12 @@ CREATE TABLE `users` (
 -- Индексы сохранённых таблиц
 --
 
+ALTER TABLE `files`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `path` (`path`);
+
 --
+
 -- Индексы таблицы `users`
 --
 ALTER TABLE `users`
@@ -164,11 +169,15 @@ ALTER TABLE `users`
   ADD KEY `phone` (`phone`),
   ADD KEY `telegram` (`telegram`),
   ADD KEY `city_id` (`city_id`),
-  ADD KEY `avatar_file_id` (`avatar_file_id`),
   ADD KEY `is_executor` (`is_executor`),
   ADD KEY `name` (`name`);
 ALTER TABLE `users` 
   ADD FULLTEXT KEY `information` (`information`);
+ALTER TABLE `users`
+  ADD FOREIGN KEY `avatar_file_id` (`avatar_file_id`) REFERENCES `files` (`id`);
+
+-- Индексы таблицы `files`
+--
 
 --
 -- Индексы таблицы `categories`
