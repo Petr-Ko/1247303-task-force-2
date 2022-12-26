@@ -2,6 +2,12 @@
 
 namespace TaskForce\classes;
 
+use TaskForce\classes\actions\CancelAction;
+use TaskForce\classes\actions\CompletedAction;
+use TaskForce\classes\actions\RefuseAction;
+use TaskForce\classes\actions\RespondAction;
+use TaskForce\classes\actions\ToWorkAction;
+
 class Task
 {
     public const STATUS_NEW = 'new';
@@ -16,27 +22,6 @@ class Task
         "in_progress" => "В работе",
         "done" => "Выполнено",
         "failed" => "Провалено"
-    ];
-
-    public const ACTION_NAMES = [
-        "cancel" => "Отменить",
-        "respond" => "Откликнуться",
-        "completed" => "Выполнено",
-        "refuse" => "Отказаться"
-    ];
-
-    public const TASK_ACTIONS = [
-        "new" => [
-            "customer" => [
-                "cancel",
-                "to_work"
-            ],
-            "executor" => ["respond"]
-        ],
-        "in_progress" => [
-            "customer" => "completed",
-            "executor" => "refuse"
-        ]
     ];
 
     public const NEXT_STATUS = [
@@ -79,21 +64,41 @@ class Task
     }
 
     /**
-    * Возвращает массив кодов действий, которые возможны в статусе, указанном в параметре
-    * @param string $code_status Строка, содержащая код статуса
+    * Возвращает массив объектов действий с заданием, доступных для пользователя, указанного в параметре
+    * @param int $currentUserId число, ID пользователя
     * @return ?array
-    *
     */
-    public function getActionsStatus(string $code_status, int $current_user_id): ?array
+    public function getActions(int $currentUserId): ?array
     {
-        if ($current_user_id === $this->customer_id) {
-            return $this::TASK_ACTIONS[$code_status]["customer"] ?? null;
-        }
-        if ($current_user_id === $this->executor_id) {
-            return $this::TASK_ACTIONS[$code_status]["executor"] ?? null;
+        $actions = [];
+
+        $cancelAction = new CancelAction();
+        $completedActicon = new CompletedAction();
+        $refuseAction = new RefuseAction();
+        $respondAction = new RespondAction();
+        $toWorkAction = new ToWorkAction();
+
+        if ($cancelAction->isAvialable($this, $currentUserId)) {
+            array_push($actions, $cancelAction);
         }
 
-        return null;
+        if ($completedActicon->isAvialable($this, $currentUserId)) {
+            array_push($actions, $completedActicon);
+        }
+
+        if ($refuseAction->isAvialable($this, $currentUserId)) {
+            array_push($actions, $refuseAction);
+        }
+
+        if ($respondAction->isAvialable($this, $currentUserId)) {
+            array_push($actions, $respondAction);
+        }
+
+        if ($toWorkAction->isAvialable($this, $currentUserId)) {
+            array_push($actions, $toWorkAction);
+        }
+
+        return $actions;
     }
 
     /**
