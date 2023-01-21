@@ -7,6 +7,7 @@ use TaskForce\classes\actions\CompletedAction;
 use TaskForce\classes\actions\RefuseAction;
 use TaskForce\classes\actions\RespondAction;
 use TaskForce\classes\actions\ToWorkAction;
+use TaskForce\classes\ex\StatusAvailableException;
 
 class Task
 {
@@ -46,9 +47,18 @@ class Task
 
     public function __construct(int $customer_id, int $executor_id, string $code_status)
     {
+
+        $status_available = array_key_exists($code_status, $this::STATUS_NAMES);
+
+        if($status_available === false) {
+            throw new StatusAvailableException("Недопустимый код статуса: $code_status");
+        };  
+
         $this->customer_id = $customer_id;
         $this->executor_id = $executor_id;
         $this->code_status = $code_status;
+
+
     }
 
 
