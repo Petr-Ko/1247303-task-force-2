@@ -4,7 +4,6 @@ namespace TaskForce\classes\actions;
 
 use TaskForce\classes\Task;
 
-//Написать проверку доступно ли действие для этого задания и пользователя
 class CompletedAction extends AbstractAction
 {
     protected string $name = "Выполнено";
