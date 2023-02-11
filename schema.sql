@@ -25,8 +25,9 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `categories` (
   `id` int NOT NULL,
-  `name` varchar(50) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
+  `name` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `icon` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -36,9 +37,9 @@ CREATE TABLE `categories` (
 
 CREATE TABLE `cities` (
   `id` int NOT NULL,
-  `name` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `name` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
   `location` point NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -50,7 +51,7 @@ CREATE TABLE `executor_categories` (
   `id` int NOT NULL,
   `executor_id` int NOT NULL,
   `category_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -61,8 +62,8 @@ CREATE TABLE `executor_categories` (
 CREATE TABLE `files` (
   `id` int NOT NULL,
   `add_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `path` varchar(256) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
+  `path` varchar(256) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -76,9 +77,9 @@ CREATE TABLE `responses` (
   `task_id` int NOT NULL,
   `executor_id` int NOT NULL,
   `price` int NOT NULL,
-  `descrpiption` text CHARACTER SET utf8 NOT NULL,
-  `rejected` boolean NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
+  `descrpiption` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `rejected` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -92,9 +93,9 @@ CREATE TABLE `reviews` (
   `task_id` int NOT NULL,
   `author_id` int NOT NULL,
   `score` int NOT NULL,
-  `text` text CHARACTER SET utf8 NOT NULL,
+  `text` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `user_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -107,14 +108,14 @@ CREATE TABLE `tasks` (
   `add_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `status` int NOT NULL,
   `customer_id` int NOT NULL,
-  `tilte` varchar(50) CHARACTER SET utf8 NOT NULL,
-  `description` text CHARACTER SET utf8 NOT NULL,
+  `tilte` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `description` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `location` point NOT NULL,
   `end_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `price` int,
+  `price` int DEFAULT NULL,
   `category_id` int NOT NULL,
-  `executor_id` int
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
+  `executor_id` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -126,7 +127,7 @@ CREATE TABLE `task_files` (
   `id` int NOT NULL,
   `task_id` int NOT NULL,
   `file_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -137,46 +138,20 @@ CREATE TABLE `task_files` (
 CREATE TABLE `users` (
   `id` int NOT NULL,
   `add_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `name` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `password_hash` varchar(60) COLLATE utf8_unicode_ci NOT NULL,
-  `email` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `phone` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `telegram` varchar(50)COLLATE utf8_unicode_ci,
+  `name` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `password_hash` varchar(60) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `email` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `phone` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `telegram` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL,
   `city_id` int NOT NULL,
-  `information` text COLLATE utf8_unicode_ci,
+  `information` text CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci,
   `birthday` date NOT NULL,
   `avatar_file_id` int NOT NULL,
-  `is_executor` boolean NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
+  `is_executor` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
 --
 -- Индексы сохранённых таблиц
---
-
-ALTER TABLE `files`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `path` (`path`);
-
---
-
--- Индексы таблицы `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `add_date` (`add_date`),
-  ADD KEY `password_hash` (`password_hash`),
-  ADD KEY `email` (`email`),
-  ADD KEY `phone` (`phone`),
-  ADD KEY `telegram` (`telegram`),
-  ADD KEY `city_id` (`city_id`),
-  ADD KEY `is_executor` (`is_executor`),
-  ADD KEY `name` (`name`);
-ALTER TABLE `users` 
-  ADD FULLTEXT KEY `information` (`information`);
-ALTER TABLE `users`
-  ADD FOREIGN KEY `avatar_file_id` (`avatar_file_id`) REFERENCES `files` (`id`);
-
--- Индексы таблицы `files`
 --
 
 --
@@ -184,27 +159,8 @@ ALTER TABLE `users`
 --
 ALTER TABLE `categories`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `name` (`name`);
-
---
--- Индексы таблицы `tasks`
---
-ALTER TABLE `tasks`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `add_date` (`add_date`),
-  ADD KEY `status` (`status`),
-  ADD KEY `tilte` (`tilte`),
-  ADD SPATIAL KEY `location` (`location`),
-  ADD KEY `end_date` (`end_date`),
-  ADD KEY `price` (`price`);
-ALTER TABLE `tasks` 
-  ADD FULLTEXT KEY `description` (`description`);
-ALTER TABLE `tasks`
-  ADD FOREIGN KEY `customer_id` (`customer_id`) REFERENCES `users` (`id`);
-ALTER TABLE `tasks`
-  ADD FOREIGN KEY `category_id` (`category_id`) REFERENCES `categories` (`id`);
-ALTER TABLE `tasks`
-  ADD FOREIGN KEY `executor_id` (`executor_id`) REFERENCES `users` (`id`);
+  ADD KEY `name` (`name`),
+  ADD KEY `icon` (`icon`);
 
 --
 -- Индексы таблицы `cities`
@@ -217,11 +173,9 @@ ALTER TABLE `cities`
 -- Индексы таблицы `executor_categories`
 --
 ALTER TABLE `executor_categories`
-  ADD PRIMARY KEY (`id`);
-ALTER TABLE `executor_categories`
-  ADD FOREIGN KEY `executor_id` (`executor_id`) REFERENCES `users` (`id`);
-ALTER TABLE `executor_categories`
-  ADD FOREIGN KEY `category_id` (`category_id`) REFERENCES `categories` (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `executor_id` (`executor_id`),
+  ADD KEY `category_id` (`category_id`);
 
 --
 -- Индексы таблицы `files`
@@ -234,42 +188,110 @@ ALTER TABLE `files`
 -- Индексы таблицы `responses`
 --
 ALTER TABLE `responses`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `add_date` (`add_date`),
-  ADD KEY `price` (`price`),
-  ADD KEY `descrpiption` (`descrpiption`(256)),
-  ADD KEY `rejected` (`rejected`);
-ALTER TABLE `responses`
-  ADD FOREIGN KEY `task_id` (`task_id`) REFERENCES `tasks` (`id`);
-ALTER TABLE `responses`
-  ADD FOREIGN KEY `executor_id` (`executor_id`) REFERENCES `users` (`id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Индексы таблицы `reviews`
 --
 ALTER TABLE `reviews`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `tasks`
+--
+ALTER TABLE `tasks`
   ADD PRIMARY KEY (`id`),
   ADD KEY `add_date` (`add_date`),
-  ADD KEY `score` (`score`);
-ALTER TABLE `reviews` 
-  ADD FULLTEXT KEY `text` (`text`);
-ALTER TABLE `reviews`
-  ADD FOREIGN KEY `task_id` (`task_id`) REFERENCES `tasks` (`id`);
-ALTER TABLE `reviews`
-  ADD FOREIGN KEY `user_id` (`user_id`) REFERENCES `users` (`id`);
-ALTER TABLE `reviews`
-  ADD FOREIGN KEY `author_id` (`author_id`) REFERENCES `users` (`id`);
+  ADD KEY `status` (`status`),
+  ADD KEY `tilte` (`tilte`),
+  ADD SPATIAL KEY `location` (`location`),
+  ADD KEY `end_date` (`end_date`),
+  ADD KEY `price` (`price`),
+  ADD KEY `customer_id` (`customer_id`),
+  ADD KEY `executor_id` (`executor_id`),
+  ADD KEY `category_id` (`category_id`);
+ALTER TABLE `tasks` ADD FULLTEXT KEY `description` (`description`);
 
 --
 -- Индексы таблицы `task_files`
 --
 ALTER TABLE `task_files`
-  ADD PRIMARY KEY (`id`);
-ALTER TABLE `task_files`
-  ADD FOREIGN KEY `task_id` (`task_id`) REFERENCES `tasks` (`id`);
-ALTER TABLE `task_files`
-  ADD FOREIGN KEY `file_id` (`file_id`) REFERENCES `files` (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `task_id` (`task_id`);
 
+--
+-- Индексы таблицы `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `add_date` (`add_date`),
+  ADD KEY `password_hash` (`password_hash`),
+  ADD KEY `email` (`email`),
+  ADD KEY `phone` (`phone`),
+  ADD KEY `telegram` (`telegram`),
+  ADD KEY `city_id` (`city_id`),
+  ADD KEY `is_executor` (`is_executor`),
+  ADD KEY `name` (`name`),
+  ADD KEY `avatar_file_id` (`avatar_file_id`);
+ALTER TABLE `users` ADD FULLTEXT KEY `information` (`information`);
+
+--
+-- AUTO_INCREMENT для сохранённых таблиц
+--
+
+--
+-- AUTO_INCREMENT для таблицы `categories`
+--
+ALTER TABLE `categories`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT для таблицы `cities`
+--
+ALTER TABLE `cities`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT для таблицы `executor_categories`
+--
+ALTER TABLE `executor_categories`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT для таблицы `files`
+--
+ALTER TABLE `files`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT для таблицы `responses`
+--
+ALTER TABLE `responses`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT для таблицы `reviews`
+--
+ALTER TABLE `reviews`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT для таблицы `tasks`
+--
+ALTER TABLE `tasks`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT для таблицы `task_files`
+--
+ALTER TABLE `task_files`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT для таблицы `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
