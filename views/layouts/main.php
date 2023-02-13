@@ -73,7 +73,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
     </div>
 </header>
 <main class="main-content container">
-    <?php $content ?>
+    <?= $content ?>
 </main>
 <?php $this->endBody() ?>
 </body>
