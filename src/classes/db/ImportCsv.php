@@ -100,7 +100,7 @@ class ImportCsv extends \SplFileObject
             exit();
         }
 
-        print("Запись '$request' добавлена в БД;");       
+        print("Запись '$request' добавлена в БД;"."<br>" );
     }
 
 

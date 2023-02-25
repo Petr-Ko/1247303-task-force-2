@@ -2,6 +2,9 @@
 
 namespace app\controllers;
 
+use app\models\Categories;
+use app\models\Cities;
+use app\models\Users;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -61,7 +64,19 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+
+        $executors = Users::find()
+            ->joinWith('cities')
+            ->where(['is_executor' => 1])
+            ->asArray()
+            ->all();
+
+        $category_names = [];
+        foreach (Categories::find()->all() as $category) {
+            $category_names[] .= $category->name;
+        }
+
+        return $this->render('index',['category_names' => $category_names, 'executors' => $executors]);
     }
 
     /**
