@@ -9,9 +9,9 @@ use Yii;
  *
  * @property int $task_id
  * @property string $add_date
- * @property int $status
+ * @property string $status
  * @property int $customer_id
- * @property string $tilte
+ * @property string $title
  * @property string $description
  * @property string $location
  * @property string $end_date
@@ -43,10 +43,10 @@ class Tasks extends \yii\db\ActiveRecord
     {
         return [
             [['add_date', 'end_date'], 'safe'],
-            [['status', 'customer_id', 'tilte', 'description', 'location', 'category_id'], 'required'],
-            [['status', 'customer_id', 'price', 'category_id', 'executor_id'], 'integer'],
+            [['status', 'customer_id', 'title', 'description', 'location', 'category_id'], 'required'],
+            [['customer_id', 'price', 'category_id', 'executor_id'], 'integer'],
             [['description', 'location'], 'string'],
-            [['tilte'], 'string', 'max' => 50],
+            [['status', 'title'], 'string', 'max' => 50],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Categories::class, 'targetAttribute' => ['category_id' => 'category_id']],
             [['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['customer_id' => 'uses_id']],
             [['executor_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['executor_id' => 'uses_id']],
@@ -63,7 +63,7 @@ class Tasks extends \yii\db\ActiveRecord
             'add_date' => 'Add Date',
             'status' => 'Status',
             'customer_id' => 'Customer ID',
-            'tilte' => 'Tilte',
+            'title' => 'Title',
             'description' => 'Description',
             'location' => 'Location',
             'end_date' => 'End Date',
@@ -106,7 +106,7 @@ class Tasks extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Responses]].
      *
-     * @return \yii\db\ActiveQuery|CategoriesQuery
+     * @return \yii\db\ActiveQuery|ResponsesQuery
      */
     public function getResponses()
     {
@@ -116,7 +116,7 @@ class Tasks extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Reviews]].
      *
-     * @return \yii\db\ActiveQuery|CategoriesQuery
+     * @return \yii\db\ActiveQuery|ReviewsQuery
      */
     public function getReviews()
     {
@@ -126,7 +126,7 @@ class Tasks extends \yii\db\ActiveRecord
     /**
      * Gets query for [[TaskFiles]].
      *
-     * @return \yii\db\ActiveQuery|CategoriesQuery
+     * @return \yii\db\ActiveQuery|TaskFilesQuery
      */
     public function getTaskFiles()
     {
@@ -135,10 +135,10 @@ class Tasks extends \yii\db\ActiveRecord
 
     /**
      * {@inheritdoc}
-     * @return CategoriesQuery the active query used by this AR class.
+     * @return TasksQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new CategoriesQuery(get_called_class());
+        return new TasksQuery(get_called_class());
     }
 }

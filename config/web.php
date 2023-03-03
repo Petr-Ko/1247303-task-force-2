@@ -50,6 +50,9 @@ $config = [
             ],
         ],
         */
+        'formatter' => [
+            'locale' => 'ru-RU',
+        ]
     ],
     'params' => $params,
 

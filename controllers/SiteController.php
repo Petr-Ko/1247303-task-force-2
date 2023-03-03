@@ -71,12 +71,11 @@ class SiteController extends Controller
             ->asArray()
             ->all();
 
-        $category_names = [];
-        foreach (Categories::find()->all() as $category) {
-            $category_names[] .= $category->name;
-        }
+        $category_names = Categories::find()
+            ->select('name')
+            ->column();
 
-        return $this->render('index',['category_names' => $category_names, 'executors' => $executors]);
+        return $this->render('index',['category_names' => $category_names, 'executors' => $executors],);
     }
 
     /**

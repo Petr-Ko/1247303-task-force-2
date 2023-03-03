@@ -71,10 +71,10 @@ class ExecutorCategories extends \yii\db\ActiveRecord
 
     /**
      * {@inheritdoc}
-     * @return CategoriesQuery the active query used by this AR class.
+     * @return ExecutorCategoriesQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new CategoriesQuery(get_called_class());
+        return new ExecutorCategoriesQuery(get_called_class());
     }
 }

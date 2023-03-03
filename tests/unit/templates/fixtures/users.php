@@ -7,7 +7,7 @@
 return [
     'first_name' => $faker->firstName(),
     'last_name' => $faker->lastName(),
-    'password' => Yii::$app->getSecurity()->generatePasswordHash('password_' . $index),
+    'password_hash' => Yii::$app->getSecurity()->generatePasswordHash('password_' . $index),
     'email' => $faker->email,
     'phone' => substr($faker->e164PhoneNumber, 1, 11),
     'birthday' => $faker->date(),
