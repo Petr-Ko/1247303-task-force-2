@@ -6,7 +6,8 @@ class ImportCsv extends \SplFileObject
 {
     public const AVAILABLE_TABLE_DB = [
         'categories',
-        'cities'
+        'cities',
+        'tasks'
     ];
 
     /**
@@ -47,6 +48,30 @@ class ImportCsv extends \SplFileObject
             }
 
         }
+    }
+
+    private function addTasksInDb(?array $data):void
+    {
+        $request = 
+            "INSERT INTO 
+                `tasks` (
+                    `status`, 
+                    `customer_id`,
+                    `title`,
+                    `description`,
+                    `category_id`,
+                    `price`
+                ) 
+                VALUES 
+                (
+                    '{$data['status']}',
+                    '{$data['customer_id']}',
+                    '{$data['title']}',
+                    '{$data['description']}',
+                    '{$data['category_id']}',
+                    '{$data['price']}'
+                )";
+        $this->setRequestDb($request);
     }
 
     private function addCityInDb(?array $data):void

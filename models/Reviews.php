@@ -93,10 +93,10 @@ class Reviews extends \yii\db\ActiveRecord
 
     /**
      * {@inheritdoc}
-     * @return CategoriesQuery the active query used by this AR class.
+     * @return ReviewsQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new CategoriesQuery(get_called_class());
+        return new ReviewsQuery(get_called_class());
     }
 }

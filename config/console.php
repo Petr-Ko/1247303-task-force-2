@@ -31,7 +31,6 @@ $config = [
     'controllerMap' => [
         'fixture' => [
             'class' => 'yii\faker\FixtureController',
-
         ],
     ],
 ];

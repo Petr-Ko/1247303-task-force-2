@@ -60,10 +60,10 @@ class Cities extends \yii\db\ActiveRecord
 
     /**
      * {@inheritdoc}
-     * @return CategoriesQuery the active query used by this AR class.
+     * @return CitiesQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new CategoriesQuery(get_called_class());
+        return new CitiesQuery(get_called_class());
     }
 }

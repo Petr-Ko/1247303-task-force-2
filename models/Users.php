@@ -90,7 +90,7 @@ class Users extends \yii\db\ActiveRecord
     /**
      * Gets query for [[ExecutorCategories]].
      *
-     * @return \yii\db\ActiveQuery|CategoriesQuery
+     * @return \yii\db\ActiveQuery|ExecutorCategoriesQuery
      */
     public function getExecutorCategories()
     {
@@ -100,7 +100,7 @@ class Users extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Files]].
      *
-     * @return \yii\db\ActiveQuery|CategoriesQuery
+     * @return \yii\db\ActiveQuery|FilesQuery
      */
     public function getFiles()
     {
@@ -110,7 +110,7 @@ class Users extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Responses]].
      *
-     * @return \yii\db\ActiveQuery|CategoriesQuery
+     * @return \yii\db\ActiveQuery|ResponsesQuery
      */
     public function getResponses()
     {
@@ -120,7 +120,7 @@ class Users extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Reviews]].
      *
-     * @return \yii\db\ActiveQuery|CategoriesQuery
+     * @return \yii\db\ActiveQuery|ReviewsQuery
      */
     public function getReviews()
     {
@@ -128,31 +128,31 @@ class Users extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[ReviewsAuthor]].
+     * Gets query for [[Reviews0]].
      *
-     * @return \yii\db\ActiveQuery|CategoriesQuery
+     * @return \yii\db\ActiveQuery|ReviewsQuery
      */
-    public function getReviewsAuthor()
+    public function getReviews0()
     {
         return $this->hasMany(Reviews::class, ['author_id' => 'uses_id']);
     }
 
     /**
-     * Gets query for [[TasksCustomer]].
+     * Gets query for [[Tasks]].
      *
-     * @return \yii\db\ActiveQuery|CategoriesQuery
+     * @return \yii\db\ActiveQuery|TasksQuery
      */
-    public function getTasksCustomer()
+    public function getTasks()
     {
         return $this->hasMany(Tasks::class, ['customer_id' => 'uses_id']);
     }
 
     /**
-     * Gets query for [[TasksExecutor]].
+     * Gets query for [[Tasks0]].
      *
-     * @return \yii\db\ActiveQuery|CategoriesQuery
+     * @return \yii\db\ActiveQuery|TasksQuery
      */
-    public function getTasksExecutor()
+    public function getTasks0()
     {
         return $this->hasMany(Tasks::class, ['executor_id' => 'uses_id']);
     }

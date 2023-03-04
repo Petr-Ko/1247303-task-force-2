@@ -3,9 +3,9 @@
 namespace app\models;
 
 /**
- * This is the ActiveQuery class for [[Tasks]].
+ * This is the ActiveQuery class for [[Categories]].
  *
- * @see Tasks
+ * @see Categories
  */
 class CategoriesQuery extends \yii\db\ActiveQuery
 {
@@ -16,7 +16,7 @@ class CategoriesQuery extends \yii\db\ActiveQuery
 
     /**
      * {@inheritdoc}
-     * @return Tasks[]|array
+     * @return Categories[]|array
      */
     public function all($db = null)
     {
@@ -25,7 +25,7 @@ class CategoriesQuery extends \yii\db\ActiveQuery
 
     /**
      * {@inheritdoc}
-     * @return Tasks|array|null
+     * @return Categories|array|null
      */
     public function one($db = null)
     {
