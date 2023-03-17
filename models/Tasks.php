@@ -60,14 +60,14 @@ class Tasks extends \yii\db\ActiveRecord
     {
         return [
             'task_id' => 'Task ID',
-            'add_date' => 'Add Date',
-            'status' => 'Status',
+            'add_date' => 'Дата создания',
+            'status' => 'Статус',
             'customer_id' => 'Customer ID',
-            'title' => 'Title',
-            'description' => 'Description',
+            'title' => 'Название задания',
+            'description' => 'Описание задания',
             'location' => 'Location',
-            'end_date' => 'End Date',
-            'price' => 'Price',
+            'end_date' => 'Дата завершения задания',
+            'price' => 'Стоимость',
             'category_id' => 'Category ID',
             'executor_id' => 'Executor ID',
         ];
