@@ -13,7 +13,8 @@ use Yii;
  * @property int $customer_id
  * @property string $title
  * @property string $description
- * @property string $location
+ * @property string $latitude
+ * @property string $longitude
  * @property string $end_date
  * @property int|null $price
  * @property int $category_id
@@ -43,10 +44,10 @@ class Tasks extends \yii\db\ActiveRecord
     {
         return [
             [['add_date', 'end_date'], 'safe'],
-            [['status', 'customer_id', 'title', 'description', 'location', 'category_id'], 'required'],
+            [['status', 'customer_id', 'title', 'description', 'latitude', 'longitude', 'category_id'], 'required'],
             [['customer_id', 'price', 'category_id', 'executor_id'], 'integer'],
-            [['description', 'location'], 'string'],
-            [['status', 'title'], 'string', 'max' => 50],
+            [['description'], 'string'],
+            [['status', 'title', 'latitude', 'longitude'], 'string', 'max' => 50],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Categories::class, 'targetAttribute' => ['category_id' => 'category_id']],
             [['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['customer_id' => 'uses_id']],
             [['executor_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['executor_id' => 'uses_id']],
@@ -60,14 +61,15 @@ class Tasks extends \yii\db\ActiveRecord
     {
         return [
             'task_id' => 'Task ID',
-            'add_date' => 'Дата создания',
-            'status' => 'Статус',
+            'add_date' => 'Add Date',
+            'status' => 'Status',
             'customer_id' => 'Customer ID',
-            'title' => 'Название задания',
-            'description' => 'Описание задания',
-            'location' => 'Location',
-            'end_date' => 'Дата завершения задания',
-            'price' => 'Стоимость',
+            'title' => 'Title',
+            'description' => 'Description',
+            'latitude' => 'Latitude',
+            'longitude' => 'Longitude',
+            'end_date' => 'End Date',
+            'price' => 'Price',
             'category_id' => 'Category ID',
             'executor_id' => 'Executor ID',
         ];

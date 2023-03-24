@@ -80,7 +80,7 @@ class Users extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Cities]].
      *
-     * @return \yii\db\ActiveQuery|CategoriesQuery
+     * @return \yii\db\ActiveQuery|CitiesQuery
      */
     public function getCities()
     {

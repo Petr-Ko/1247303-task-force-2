@@ -4,12 +4,12 @@
 /** @var yii */
 
 /** @var  $tasks_new */
-/** @var  $model */
+/** @var  $filterForm */
 /** @var  $categories */
 
 use yii\bootstrap5\Html;
 use yii\widgets\ActiveForm;
-use yii\widgets\ActiveField;
+
 
 
 $this->title = 'Новые задания, Task Force';
@@ -57,9 +57,11 @@ $this->title = 'Новые задания, Task Force';
 </div>
 <div class="right-column">
     <div class="right-card black">
+
         <div class="search-form">
             <?php $form = ActiveForm::begin([
                 'id' => 'form',
+                'method' => 'get',
                 'options' => ['class' => 'form'],
                 'fieldConfig' => [
                         'options' => ['tag' => false],
@@ -68,7 +70,7 @@ $this->title = 'Новые задания, Task Force';
             ?>
             <h4 class="head-card">Категории</h4>
             <div class = 'form-group'>
-            <?= $form->field($model, 'category',
+            <?= $form->field($filterForm, 'category',
                 ['template'=> "{input}\n",])
                 ->checkboxList($categories,
                 [
@@ -76,39 +78,36 @@ $this->title = 'Новые задания, Task Force';
                     'tag' => false,
                     'item' => function ($index, $label, $name, $checked, $value)
                     {
+
                         return
-                            Html::beginTag('div',['class' =>'checkbox-wrapper']) .
-                            Html::BeginTag('label', ['class' =>'control-label']) .
-                            Html::checkbox($name,$checked, ['value' => $value]). $label .
-                            Html::endTag('label').
-                            Html::endTag('div');
+                            '<div class="checkbox-wrapper"><label class="control-label">'
+                            . Html::checkbox($name, $checked, ['value' => $value]) . $label
+                            . '</label></div>';
                     }
                 ])
             ?>
             </div>
             <h4 class="head-card">Дополнительно</h4>
             <div class = 'form-group'>
-                <?= $form->field($model, 'additionally',
+                <?= $form->field($filterForm , 'additionally',
                     ['template'=> "{input}\n",])
-                    ->checkboxList($model->noExecutors(),
+                    ->checkboxList($filterForm->additional(),
                     [
                         'unselect' => null,
                         'tag' => false,
                         'item' => function ($index, $label, $name, $checked, $value)
                         {
                             return
-                                Html::beginTag('div',['class' =>'checkbox-wrapper']) .
-                                Html::BeginTag('label', ['class' =>'control-label']) .
-                                Html::checkbox($name,$checked, ['value' => $value]). $label .
-                                Html::endTag('label').
-                                Html::endTag('div');
+                                '<div class="checkbox-wrapper"><label class="control-label">'
+                                . Html::checkbox($name, $checked, ['value' => $value]) . $label
+                                . '</label></div>';
                         }
                     ])
                 ?>
             </div>
             <h4 class="head-card">Период</h4>
             <div class = 'form-group'>
-                <?= $form->field($model, 'period', ['template'=> "{input}\n"])->dropDownList($model->period()) ?>
+                <?= $form->field($filterForm, 'period', ['template'=> "{input}\n"])->dropDownList($filterForm ->period()) ?>
             </div>
             <?= Html::input('submit',null, 'Искать',['class' => 'button button--blue']) ?>
             <?php ActiveForm::end(); ?>

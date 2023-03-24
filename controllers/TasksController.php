@@ -5,13 +5,13 @@ namespace app\controllers;
 
 use app\models\TaskFiltering;
 use app\models\Tasks;
-use \app\models\Categories;
+use app\models\Categories;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
-use \yii\widgets\ActiveForm;
+use yii\widgets\ActiveForm;
 
 
 class TasksController extends Controller
@@ -65,16 +65,15 @@ class TasksController extends Controller
      */
     public function actionIndex()
     {
-        $model = new TaskFiltering();
+        $filterForm  = new TaskFiltering();
 
-        $categories = Categories::find()->select(['name','category_id'])->column();
+        $provider = $filterForm->filtration(Yii::$app->request->get());
 
-        $tasks_new = Tasks::find()
-            ->joinWith('category')
-            ->where(['status' =>'new'])
-            ->all();
+        $tasks_new = $provider->getModels();
 
-        return $this->render('index', ['tasks_new' => $tasks_new, 'categories' => $categories, 'model' => $model]);
+        $categories = Categories::find()->orderBy('category_id')->select(['name'])->column();
+
+        return $this->render('index', ['tasks_new' => $tasks_new, 'categories' => $categories, 'filterForm' => $filterForm ]);
     }
 
 }
