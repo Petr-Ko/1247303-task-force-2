@@ -62,6 +62,9 @@ class TaskFiltering extends Model
             return $dataProvider;
         }
 
+        $query->andFilterWhere(['category_id' => "$this->category"])
+              ->andFilterWhere(['executor_id' => "$this->additionally"]);
+
         return $dataProvider;
     }
 }
