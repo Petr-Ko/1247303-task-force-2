@@ -4,14 +4,12 @@ namespace app\controllers;
 
 
 use app\models\TaskFiltering;
-use app\models\Tasks;
 use app\models\Categories;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
-use yii\web\Response;
 use yii\filters\VerbFilter;
-use yii\widgets\ActiveForm;
+
 
 
 class TasksController extends Controller
@@ -71,9 +69,17 @@ class TasksController extends Controller
 
         $tasks_new = $provider->getModels();
 
-        $categories = Categories::find()->orderBy('category_id')->select(['name'])->column();
+        $pages = $provider->getPagination();
 
-        return $this->render('index', ['tasks_new' => $tasks_new, 'categories' => $categories, 'filterForm' => $filterForm ]);
+        $categories = Categories::find()->select(['name'])->indexBy('category_id')->column();
+
+        return $this->render('index',
+            [
+                'tasks_new' => $tasks_new,
+                'categories' => $categories,
+                'filterForm' => $filterForm,
+                'pages' => $pages,
+            ]);
     }
 
 }

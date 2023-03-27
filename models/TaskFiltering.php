@@ -2,8 +2,10 @@
 
 namespace app\models;
 
+use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
+use \DateTime;
 
 
 class TaskFiltering extends Model
@@ -54,16 +56,33 @@ class TaskFiltering extends Model
         $query = Tasks::find()->new();
 
 
-        $dataProvider = new ActiveDataProvider(['query' => $query,   'pagination' => [
-            'pageSize' => 10,
-        ],]);
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' =>
+                [
+                    'pageSize' => 5,
+                ],
+            ]);
 
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
         }
 
-        $query->andFilterWhere(['category_id' => "$this->category"])
-              ->andFilterWhere(['executor_id' => "$this->additionally"]);
+        if($this->category){
+            $query->andWhere(['category_id' => $this->category]);
+        }
+
+        if($this->additionally) {
+            $query->andWhere(['executor_id' => null]);
+        }
+
+        if($this->period) {
+
+            $interval = new DateTime("{$this->period} hours ago");
+
+            $query->andFilterWhere(['>=', 'add_date', $interval->format('Y-m-d H:i:s')]);
+        }
+
 
         return $dataProvider;
     }

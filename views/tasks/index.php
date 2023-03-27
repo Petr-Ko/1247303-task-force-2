@@ -6,17 +6,16 @@
 /** @var  $tasks_new */
 /** @var  $filterForm */
 /** @var  $categories */
+/** @var  $pages */
 
 use yii\bootstrap5\Html;
 use yii\widgets\ActiveForm;
-
+use yii\widgets\LinkPager;
 
 
 $this->title = 'Новые задания, Task Force';
 
 ?>
-
-
 
 <div class="left-column">
     <h3 class="head-main head-task">Новые задания</h3>
@@ -36,23 +35,17 @@ $this->title = 'Новые задания, Task Force';
     </div>
     <?php endforeach; ?>
     <div class="pagination-wrapper">
-        <ul class="pagination-list">
-            <li class="pagination-item mark">
-                <a href="#" class="link link--page"></a>
-            </li>
-            <li class="pagination-item">
-                <a href="#" class="link link--page">1</a>
-            </li>
-            <li class="pagination-item pagination-item--active">
-                <a href="#" class="link link--page">2</a>
-            </li>
-            <li class="pagination-item">
-                <a href="#" class="link link--page">3</a>
-            </li>
-            <li class="pagination-item mark">
-                <a href="#" class="link link--page"></a>
-            </li>
-        </ul>
+    <?= LinkPager::widget([
+            'pagination' => $pages,
+            'options' => ['class' => 'pagination-list',],
+            'prevPageCssClass' => 'pagination-item mark',
+            'nextPageCssClass' => 'pagination-item mark',
+            'nextPageLabel' => '',
+            'prevPageLabel' => '',
+            'activePageCssClass' => 'pagination-item--active',
+            'linkOptions' => ['class' => 'link link--page'],
+            'linkContainerOptions' => ['class' => 'pagination-item'],
+        ])?>
     </div>
 </div>
 <div class="right-column">
