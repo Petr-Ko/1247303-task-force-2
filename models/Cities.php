@@ -9,7 +9,8 @@ use Yii;
  *
  * @property int $city_id
  * @property string $name
- * @property string $location
+ * @property string $latitude
+ * @property string $longitude
  *
  * @property Users $city
  */
@@ -29,9 +30,8 @@ class Cities extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'location'], 'required'],
-            [['location'], 'string'],
-            [['name'], 'string', 'max' => 50],
+            [['name', 'latitude', 'longitude'], 'required'],
+            [['name', 'latitude', 'longitude'], 'string', 'max' => 50],
             [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['city_id' => 'city_id']],
         ];
     }
@@ -44,7 +44,8 @@ class Cities extends \yii\db\ActiveRecord
         return [
             'city_id' => 'City ID',
             'name' => 'Name',
-            'location' => 'Location',
+            'latitude' => 'Latitude',
+            'longitude' => 'Longitude',
         ];
     }
 

@@ -44,9 +44,10 @@ CREATE TABLE `categories` (
 
 CREATE TABLE `cities` (
   `city_id` int NOT NULL,
-  `name` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `location` point NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_general_ci;
+  `name` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `latitude` varchar(50) NOT NULL,
+  `longitude` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- --------------------------------------------------------
 
@@ -113,17 +114,17 @@ CREATE TABLE `reviews` (
 CREATE TABLE `tasks` (
   `task_id` int NOT NULL,
   `add_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `status` varchar(50) NOT NULL,
+  `status` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `customer_id` int NOT NULL,
   `title` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `description` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `location` point NOT NULL,
+  `latitude` varchar(50) NOT NULL,
+  `longitude` varchar(50) NOT NULL,
   `end_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `price` int DEFAULT NULL,
   `category_id` int NOT NULL,
   `executor_id` int DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_general_ci;
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 -- --------------------------------------------------------
 
 --
@@ -175,7 +176,9 @@ ALTER TABLE `categories`
 --
 ALTER TABLE `cities`
   ADD PRIMARY KEY (`city_id`),
-  ADD KEY `name` (`name`);
+  ADD KEY `name` (`name`),
+  ADD KEY `longitude` (`longitude`),
+  ADD KEY `latitude` (`latitude`);
 
 --
 -- Индексы таблицы `executor_categories`
@@ -216,13 +219,14 @@ ALTER TABLE `tasks`
   ADD PRIMARY KEY (`task_id`),
   ADD KEY `add_date` (`add_date`),
   ADD KEY `status` (`status`),
-  ADD KEY `title` (`title`),
-  ADD SPATIAL KEY `location` (`location`),
+  ADD KEY `tilte` (`title`),
   ADD KEY `end_date` (`end_date`),
   ADD KEY `price` (`price`),
   ADD KEY `customer_id` (`customer_id`),
   ADD KEY `executor_id` (`executor_id`),
-  ADD KEY `category_id` (`category_id`);
+  ADD KEY `category_id` (`category_id`),
+  ADD KEY `longitude` (`longitude`),
+  ADD KEY `latitude` (`latitude`);
 ALTER TABLE `tasks` ADD FULLTEXT KEY `description` (`description`);
 
 --
@@ -361,7 +365,3 @@ ALTER TABLE `task_files`
   ADD CONSTRAINT `task_files_files__fk` FOREIGN KEY (`file_id`) REFERENCES `files` (`file_id`),
   ADD CONSTRAINT `task_files_tasks__fk` FOREIGN KEY (`task_id`) REFERENCES `tasks` (`task_id`);
 COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

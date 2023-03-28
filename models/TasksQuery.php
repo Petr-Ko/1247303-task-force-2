@@ -14,6 +14,12 @@ class TasksQuery extends \yii\db\ActiveQuery
         return $this->andWhere('[[status]]=1');
     }*/
 
+    public function new()
+    {
+    return $this->andWhere('[[status]]="new"');
+    }
+
+
     /**
      * {@inheritdoc}
      * @return Tasks[]|array

@@ -3,12 +3,13 @@
 namespace app\controllers;
 
 
-use app\models\Tasks;
+use app\models\TaskFiltering;
+use app\models\Categories;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
-use yii\web\Response;
 use yii\filters\VerbFilter;
+
 
 
 class TasksController extends Controller
@@ -62,13 +63,23 @@ class TasksController extends Controller
      */
     public function actionIndex()
     {
-        $tasks_new = Tasks::find()
-            ->joinWith('category')
-            ->where(['status' =>'new'])
-            ->asArray()
-            ->all();
+        $filterForm  = new TaskFiltering();
 
-        return $this->render('index', ['tasks_new' => $tasks_new]);
+        $provider = $filterForm->filtration(Yii::$app->request->get());
+
+        $tasks_new = $provider->getModels();
+
+        $pages = $provider->getPagination();
+
+        $categories = Categories::find()->select(['name'])->indexBy('category_id')->column();
+
+        return $this->render('index',
+            [
+                'tasks_new' => $tasks_new,
+                'categories' => $categories,
+                'filterForm' => $filterForm,
+                'pages' => $pages,
+            ]);
     }
 
 }
