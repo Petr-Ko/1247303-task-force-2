@@ -5,6 +5,7 @@ namespace app\controllers;
 
 use app\models\TaskFiltering;
 use app\models\Categories;
+use app\models\Tasks;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -17,7 +18,7 @@ class TasksController extends Controller
     /**
      * {@inheritdoc}
      */
-    public function behaviors()
+/*    public function behaviors()
     {
         return [
             'access' => [
@@ -38,7 +39,7 @@ class TasksController extends Controller
                 ],
             ],
         ];
-    }
+    }*/
 
     /**
      * {@inheritdoc}
@@ -82,4 +83,10 @@ class TasksController extends Controller
             ]);
     }
 
+    public function actionView($id)
+    {
+        $task = Tasks::findOne($id);
+
+        return $this->render('view',['task' => $task,]);
+    }
 }

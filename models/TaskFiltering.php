@@ -68,13 +68,8 @@ class TaskFiltering extends Model
             return $dataProvider;
         }
 
-        if($this->category){
-            $query->andWhere(['category_id' => $this->category]);
-        }
-
-        if($this->additionally) {
-            $query->andWhere(['executor_id' => null]);
-        }
+        $query->andWhere(['category_id' => $this->category]);
+        $query->andWhere(['executor_id' => $this->additionally]);
 
         if($this->period) {
 
