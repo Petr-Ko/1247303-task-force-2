@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use DateTime;
 use Yii;
 
 /**
@@ -78,6 +79,20 @@ class Users extends \yii\db\ActiveRecord
     }
 
     /**
+     *
+     */
+    public function getAge():int
+    {
+        $today = new DateTime('now');
+
+        $birthday = new DateTime($this->birthday);
+
+        $age = $today->diff($birthday)->format("%y");
+
+        return $age;
+    }
+
+    /**
      * Gets query for [[Cities]].
      *
      * @return \yii\db\ActiveQuery|CitiesQuery
@@ -132,7 +147,7 @@ class Users extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery|ReviewsQuery
      */
-    public function getReviews0()
+    public function getReviewsAuthor()
     {
         return $this->hasMany(Reviews::class, ['author_id' => 'uses_id']);
     }
@@ -152,7 +167,7 @@ class Users extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery|TasksQuery
      */
-    public function getTasks0()
+    public function getTasksExecutor()
     {
         return $this->hasMany(Tasks::class, ['executor_id' => 'uses_id']);
     }

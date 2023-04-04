@@ -10,6 +10,7 @@ return [
     'password_hash' => Yii::$app->getSecurity()->generatePasswordHash('password_' . $index),
     'email' => $faker->email,
     'phone' => substr($faker->e164PhoneNumber, 1, 11),
+    'information' => $faker->realText(300),
     'birthday' => $faker->date(),
     'avatar_file_id' => random_int(1,11),
     'city_id' => random_int(1,1087),
