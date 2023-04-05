@@ -2,12 +2,14 @@
 
 namespace app\models;
 
+use yii\db\ActiveQuery;
+
 /**
  * This is the ActiveQuery class for [[ExecutorCategories]].
  *
  * @see ExecutorCategories
  */
-class ExecutorCategoriesQuery extends \yii\db\ActiveQuery
+class ExecutorCategoriesQuery extends ActiveQuery
 {
     /*public function active()
     {

@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "tasks".
@@ -27,7 +28,7 @@ use Yii;
  * @property Reviews[] $reviews
  * @property TaskFiles[] $taskFiles
  */
-class Tasks extends \yii\db\ActiveRecord
+class Tasks extends ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -49,8 +50,8 @@ class Tasks extends \yii\db\ActiveRecord
             [['description'], 'string'],
             [['status', 'title', 'latitude', 'longitude'], 'string', 'max' => 50],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Categories::class, 'targetAttribute' => ['category_id' => 'category_id']],
-            [['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['customer_id' => 'uses_id']],
-            [['executor_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['executor_id' => 'uses_id']],
+            [['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['customer_id' => 'user_id']],
+            [['executor_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['executor_id' => 'user_id']],
         ];
     }
 
@@ -92,7 +93,7 @@ class Tasks extends \yii\db\ActiveRecord
      */
     public function getCustomer()
     {
-        return $this->hasOne(Users::class, ['uses_id' => 'customer_id']);
+        return $this->hasOne(Users::class, ['user_id' => 'customer_id']);
     }
 
     /**
@@ -102,7 +103,7 @@ class Tasks extends \yii\db\ActiveRecord
      */
     public function getExecutor()
     {
-        return $this->hasOne(Users::class, ['uses_id' => 'executor_id']);
+        return $this->hasOne(Users::class, ['user_id' => 'executor_id']);
     }
 
     /**

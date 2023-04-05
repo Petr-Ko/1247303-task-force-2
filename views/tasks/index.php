@@ -50,7 +50,6 @@ $this->title = 'Новые задания, Task Force';
 </div>
 <div class="right-column">
     <div class="right-card black">
-
         <div class="search-form">
             <?php $form = ActiveForm::begin([
                 'id' => 'form',
