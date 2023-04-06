@@ -48,7 +48,7 @@ class Users extends ActiveRecord
     public function rules()
     {
         return [
-            [['add_date', 'birthday'], 'safe'],
+            [['first_name', 'last_name', 'email', 'password', 'password_repeat', 'city_id', 'is_executor','add_date', 'birthday'], 'safe'],
             [['first_name', 'last_name', 'password_hash', 'email', 'is_executor'], 'required'],
             [['city_id', 'avatar_file_id', 'is_executor'], 'integer'],
             [['information'], 'string'],
@@ -64,18 +64,20 @@ class Users extends ActiveRecord
     {
         return [
             'user_id' => 'User ID',
-            'add_date' => 'Add Date',
+            'add_date' => 'Дата регистрации',
             'first_name' => 'Имя',
             'last_name' => 'Фамилия',
             'password_hash' => 'Password Hash',
             'email' => 'Email',
-            'phone' => 'Phone',
+            'phone' => 'Телефон',
             'telegram' => 'Telegram',
-            'city_id' => 'City ID',
+            'city_id' => 'Город',
             'information' => 'Information',
-            'birthday' => 'Birthday',
+            'birthday' => 'Дата рождения',
             'avatar_file_id' => 'Avatar File ID',
-            'is_executor' => 'Is Executor',
+            'is_executor' => 'я собираюсь откликаться на заказы',
+            'password' => 'Пароль',
+            'password_repeat' => 'Повтор пароля',
         ];
     }
 

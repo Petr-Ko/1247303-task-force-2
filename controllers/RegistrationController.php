@@ -3,7 +3,8 @@
 namespace app\controllers;
 
 use app\models\Cities;
-use app\models\UserRegistration;
+use app\models\UserRegistrationForm;
+use app\models\Users;
 use Yii;
 use yii\web\Controller;
 
@@ -31,10 +32,22 @@ class RegistrationController extends Controller
      */
     public function actionIndex()
     {
-        $registrationForm = new UserRegistration();
+        $registrationForm = new UserRegistrationForm();
 
-        $registrationForm->AddUser(Yii::$app->request->post());
+        if($registrationForm->load(Yii::$app->request->post()) && $registrationForm->validate()) {
 
+            $user = new Users();
+
+            $user->first_name =  $registrationForm->first_name;
+            $user->last_name = $registrationForm->last_name;
+            $user->email = $registrationForm->email;
+            $user->city_id = $registrationForm->city_id;
+            $user->is_executor = $registrationForm->is_executor;
+            $user->password_hash = Yii::$app->getSecurity()->generatePasswordHash($registrationForm->password);
+
+            $user->save();
+
+        }
 
         $cities = Cities::find()->select('name')->indexBy('city_id')->column();
 
