@@ -3,6 +3,7 @@
 /** @var yii */
 /** @var $registrationForm */
 /** @var $cities */
+/** @var $newUser */
 
 use yii\widgets\ActiveForm;
 use yii\bootstrap5\Html;
@@ -10,7 +11,7 @@ use yii\bootstrap5\Html;
 $this->title = "Task Force, Регистрация нового пользователя";
 
 ?>
-
+<?php if(!isset($newUser)) : ?>
 <div class="center-block">
     <div class="registration-form regular-form">
         <?php $form = ActiveForm::begin([
@@ -42,3 +43,7 @@ $this->title = "Task Force, Регистрация нового пользова
         <?php ActiveForm::end(); ?>
     </div>
 </div>
+<?php endif; ?>
+<?php if(isset($newUser)): ?>
+<h2><?= $newUser->first_name . " ".$newUser->last_name.", поздравляем Вас с успешной регистрацией!" ?></h2>
+<?php endif; ?>

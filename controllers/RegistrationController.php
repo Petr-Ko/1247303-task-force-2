@@ -34,6 +34,8 @@ class RegistrationController extends Controller
     {
         $registrationForm = new UserRegistrationForm();
 
+        $newUser = null;
+
         if($registrationForm->load(Yii::$app->request->post()) && $registrationForm->validate()) {
 
             $user = new Users();
@@ -45,13 +47,15 @@ class RegistrationController extends Controller
             $user->is_executor = $registrationForm->is_executor;
             $user->password_hash = Yii::$app->getSecurity()->generatePasswordHash($registrationForm->password);
 
-            $user->save();
+            if($user->save()){
 
+                $newUser = $user;
+            }
         }
 
         $cities = Cities::find()->select('name')->indexBy('city_id')->column();
 
-        return $this->render('index',['registrationForm' => $registrationForm, 'cities' => $cities]);
+        return $this->render('index',['registrationForm' => $registrationForm, 'cities' => $cities, 'newUser' => $newUser]);
     }
 
 
