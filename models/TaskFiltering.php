@@ -61,6 +61,7 @@ class TaskFiltering extends Model
             'pagination' =>
                 [
                     'pageSize' => 5,
+                    'defaultPageSize' => 5,
                 ],
             ]);
 

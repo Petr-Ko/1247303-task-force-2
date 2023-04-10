@@ -8,6 +8,7 @@
 /** @var  $categories */
 /** @var  $pages */
 
+use yii\helpers\Url;
 use yii\bootstrap5\Html;
 use yii\widgets\ActiveForm;
 use yii\widgets\LinkPager;
@@ -22,7 +23,7 @@ $this->title = 'Новые задания, Task Force';
     <?php foreach($tasks_new as $task): ?>
     <div class="task-card">
         <div class="header-task">
-            <a  href="tasks/view/<?=$task->task_id ?>" class="link link--block link--big"><?=$task->title ?> </a>
+            <a  href="<?= Url::to(['/tasks/view', 'id' => $task->task_id]) ?>" class="link link--block link--big"><?=$task->title ?> </a>
             <p class="price price--task"><?=$task->price ?> ₽</p>
         </div>
         <p class="info-text"><span class="current-time"><?php echo Yii::$app->formatter->asRelativeTime($task->add_date); ?></span></p>

@@ -34,8 +34,6 @@ class RegistrationController extends Controller
     {
         $registrationForm = new UserRegistrationForm();
 
-        $newUser = null;
-
         if($registrationForm->load(Yii::$app->request->post()) && $registrationForm->validate()) {
 
             $user = new Users();
@@ -49,13 +47,13 @@ class RegistrationController extends Controller
 
             if($user->save()){
 
-                $newUser = $user;
+                return $this->redirect(Yii::$app->homeUrl);
             }
         }
 
         $cities = Cities::find()->select('name')->indexBy('city_id')->column();
 
-        return $this->render('index',['registrationForm' => $registrationForm, 'cities' => $cities, 'newUser' => $newUser]);
+        return $this->render('index',['registrationForm' => $registrationForm, 'cities' => $cities]);
     }
 
 
