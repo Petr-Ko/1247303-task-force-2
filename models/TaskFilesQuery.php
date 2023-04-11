@@ -2,12 +2,14 @@
 
 namespace app\models;
 
+use yii\db\ActiveQuery;
+
 /**
  * This is the ActiveQuery class for [[TaskFiles]].
  *
  * @see TaskFiles
  */
-class TaskFilesQuery extends \yii\db\ActiveQuery
+class TaskFilesQuery extends ActiveQuery
 {
     /*public function active()
     {

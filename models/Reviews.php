@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "reviews".
@@ -19,7 +20,7 @@ use Yii;
  * @property Tasks $task
  * @property Users $user
  */
-class Reviews extends \yii\db\ActiveRecord
+class Reviews extends ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -40,7 +41,7 @@ class Reviews extends \yii\db\ActiveRecord
             [['task_id', 'author_id', 'score', 'user_id'], 'integer'],
             [['text'], 'string'],
             [['task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tasks::class, 'targetAttribute' => ['task_id' => 'task_id']],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['user_id' => 'uses_id']],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['user_id' => 'user_id']],
             [['author_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['author_id' => 'uses_id']],
         ];
     }
@@ -68,7 +69,7 @@ class Reviews extends \yii\db\ActiveRecord
      */
     public function getAuthor()
     {
-        return $this->hasOne(Users::class, ['uses_id' => 'author_id']);
+        return $this->hasOne(Users::class, ['user_id' => 'author_id']);
     }
 
     /**
@@ -88,7 +89,7 @@ class Reviews extends \yii\db\ActiveRecord
      */
     public function getUser()
     {
-        return $this->hasOne(Users::class, ['uses_id' => 'user_id']);
+        return $this->hasOne(Users::class, ['user_id' => 'user_id']);
     }
 
     /**

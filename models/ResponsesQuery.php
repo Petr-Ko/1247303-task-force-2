@@ -2,12 +2,14 @@
 
 namespace app\models;
 
+use yii\db\ActiveQuery;
+
 /**
  * This is the ActiveQuery class for [[Responses]].
  *
  * @see Responses
  */
-class ResponsesQuery extends \yii\db\ActiveQuery
+class ResponsesQuery extends ActiveQuery
 {
     /*public function active()
     {

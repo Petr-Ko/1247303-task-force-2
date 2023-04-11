@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "executor_categories".
@@ -14,7 +15,7 @@ use Yii;
  * @property Categories $category
  * @property Users $executor
  */
-class ExecutorCategories extends \yii\db\ActiveRecord
+class ExecutorCategories extends ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -33,7 +34,7 @@ class ExecutorCategories extends \yii\db\ActiveRecord
             [['executor_id', 'category_id'], 'required'],
             [['executor_id', 'category_id'], 'integer'],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Categories::class, 'targetAttribute' => ['category_id' => 'category_id']],
-            [['executor_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['executor_id' => 'uses_id']],
+            [['executor_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['executor_id' => 'user_id']],
         ];
     }
 
@@ -66,7 +67,7 @@ class ExecutorCategories extends \yii\db\ActiveRecord
      */
     public function getExecutor()
     {
-        return $this->hasOne(Users::class, ['uses_id' => 'executor_id']);
+        return $this->hasOne(Users::class, ['user_id' => 'executor_id']);
     }
 
     /**

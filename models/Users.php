@@ -4,11 +4,12 @@ namespace app\models;
 
 use DateTime;
 use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "users".
  *
- * @property int $uses_id
+ * @property int $user_id
  * @property string $add_date
  * @property string $first_name
  * @property string $last_name
@@ -27,11 +28,11 @@ use Yii;
  * @property Files $files
  * @property Responses[] $responses
  * @property Reviews[] $reviews
- * @property Reviews[] $reviews0
+ * @property Reviews[] $reviewsAuthor
  * @property Tasks[] $tasks
- * @property Tasks[] $tasks0
+ * @property Tasks[] $tasksExecutor
  */
-class Users extends \yii\db\ActiveRecord
+class Users extends ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -47,8 +48,8 @@ class Users extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['add_date', 'birthday'], 'safe'],
-            [['first_name', 'last_name', 'password_hash', 'email', 'phone', 'birthday', 'avatar_file_id', 'is_executor'], 'required'],
+            [['first_name', 'last_name', 'email', 'password', 'password_repeat', 'city_id', 'is_executor','add_date', 'birthday'], 'safe'],
+            [['first_name', 'last_name', 'password_hash', 'email', 'is_executor'], 'required'],
             [['city_id', 'avatar_file_id', 'is_executor'], 'integer'],
             [['information'], 'string'],
             [['first_name', 'last_name', 'email', 'phone', 'telegram'], 'string', 'max' => 50],
@@ -62,19 +63,21 @@ class Users extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'uses_id' => 'Uses ID',
-            'add_date' => 'Add Date',
-            'first_name' => 'First Name',
-            'last_name' => 'Last Name',
+            'user_id' => 'User ID',
+            'add_date' => 'Дата регистрации',
+            'first_name' => 'Имя',
+            'last_name' => 'Фамилия',
             'password_hash' => 'Password Hash',
             'email' => 'Email',
-            'phone' => 'Phone',
+            'phone' => 'Телефон',
             'telegram' => 'Telegram',
-            'city_id' => 'City ID',
+            'city_id' => 'Город',
             'information' => 'Information',
-            'birthday' => 'Birthday',
+            'birthday' => 'Дата рождения',
             'avatar_file_id' => 'Avatar File ID',
-            'is_executor' => 'Is Executor',
+            'is_executor' => 'я собираюсь откликаться на заказы',
+            'password' => 'Пароль',
+            'password_repeat' => 'Повтор пароля',
         ];
     }
 
@@ -109,7 +112,7 @@ class Users extends \yii\db\ActiveRecord
      */
     public function getExecutorCategories()
     {
-        return $this->hasMany(ExecutorCategories::class, ['executor_id' => 'uses_id']);
+        return $this->hasMany(ExecutorCategories::class, ['executor_id' => 'user_id']);
     }
 
     /**
@@ -129,7 +132,7 @@ class Users extends \yii\db\ActiveRecord
      */
     public function getResponses()
     {
-        return $this->hasMany(Responses::class, ['executor_id' => 'uses_id']);
+        return $this->hasMany(Responses::class, ['executor_id' => 'user_id']);
     }
 
     /**
@@ -139,7 +142,7 @@ class Users extends \yii\db\ActiveRecord
      */
     public function getReviews()
     {
-        return $this->hasMany(Reviews::class, ['user_id' => 'uses_id']);
+        return $this->hasMany(Reviews::class, ['user_id' => 'user_id']);
     }
 
     /**
@@ -149,7 +152,7 @@ class Users extends \yii\db\ActiveRecord
      */
     public function getReviewsAuthor()
     {
-        return $this->hasMany(Reviews::class, ['author_id' => 'uses_id']);
+        return $this->hasMany(Reviews::class, ['author_id' => 'user_id']);
     }
 
     /**
@@ -159,7 +162,7 @@ class Users extends \yii\db\ActiveRecord
      */
     public function getTasks()
     {
-        return $this->hasMany(Tasks::class, ['customer_id' => 'uses_id']);
+        return $this->hasMany(Tasks::class, ['customer_id' => 'user_id']);
     }
 
     /**
@@ -169,7 +172,7 @@ class Users extends \yii\db\ActiveRecord
      */
     public function getTasksExecutor()
     {
-        return $this->hasMany(Tasks::class, ['executor_id' => 'uses_id']);
+        return $this->hasMany(Tasks::class, ['executor_id' => 'user_id']);
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "responses".
@@ -18,7 +19,7 @@ use Yii;
  * @property Users $executor
  * @property Tasks $task
  */
-class Responses extends \yii\db\ActiveRecord
+class Responses extends ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -39,7 +40,7 @@ class Responses extends \yii\db\ActiveRecord
             [['task_id', 'executor_id', 'price', 'rejected'], 'integer'],
             [['descrpiption'], 'string'],
             [['task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tasks::class, 'targetAttribute' => ['task_id' => 'task_id']],
-            [['executor_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['executor_id' => 'uses_id']],
+            [['executor_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['executor_id' => 'user_id']],
         ];
     }
 
@@ -66,7 +67,7 @@ class Responses extends \yii\db\ActiveRecord
      */
     public function getExecutor()
     {
-        return $this->hasOne(Users::class, ['uses_id' => 'executor_id']);
+        return $this->hasOne(Users::class, ['user_id' => 'executor_id']);
     }
 
     /**

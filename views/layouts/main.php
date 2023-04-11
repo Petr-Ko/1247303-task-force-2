@@ -28,6 +28,8 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 </head>
 <body>
 <?php $this->beginBody() ?>
+
+<?php if (!Yii::$app->user->isGuest): ?>
 <header class="page-header">
     <nav class="main-nav">
         <a href='/' class="header-logo">
@@ -72,6 +74,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
         </div>
     </div>
 </header>
+<?php endif; ?>
 <main class="main-content container">
     <?= $content ?>
 </main>

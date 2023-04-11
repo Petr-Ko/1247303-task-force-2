@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "files".
@@ -14,7 +15,7 @@ use Yii;
  * @property Users $file
  * @property TaskFiles[] $taskFiles
  */
-class Files extends \yii\db\ActiveRecord
+class Files extends ActiveRecord
 {
     /**
      * {@inheritdoc}

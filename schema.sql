@@ -144,20 +144,20 @@ CREATE TABLE `task_files` (
 --
 
 CREATE TABLE `users` (
-  `uses_id` int NOT NULL,
-  `add_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `first_name` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `last_name` varchar(50) COLLATE utf8_general_ci NOT NULL,
-  `password_hash` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `email` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `phone` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `telegram` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL,
-  `city_id` int DEFAULT NULL,
-  `information` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci,
-  `birthday` date NOT NULL,
-  `avatar_file_id` int NOT NULL,
-  `is_executor` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_general_ci;
+`user_id` int NOT NULL,
+    `add_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `first_name` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+    `last_name` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+    `password_hash` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+    `email` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+    `phone` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+    `telegram` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+    `city_id` int DEFAULT NULL,
+    `information` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
+    `birthday` date DEFAULT NULL,
+    `avatar_file_id` int DEFAULT NULL,
+    `is_executor` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
 -- Индексы сохранённых таблиц
@@ -241,7 +241,7 @@ ALTER TABLE `task_files`
 -- Индексы таблицы `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`uses_id`),
+  ADD PRIMARY KEY (`user_id`),
   ADD KEY `add_date` (`add_date`),
   ADD KEY `password_hash` (`password_hash`),
   ADD KEY `email` (`email`),
@@ -310,7 +310,7 @@ ALTER TABLE `task_files`
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `uses_id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `user_id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
@@ -327,7 +327,7 @@ ALTER TABLE `cities`
 --
 ALTER TABLE `executor_categories`
   ADD CONSTRAINT `executor_categories_categories__fk` FOREIGN KEY (`category_id`) REFERENCES `categories` (`category_id`),
-  ADD CONSTRAINT `executor_categories_users__fk` FOREIGN KEY (`executor_id`) REFERENCES `users` (`uses_id`);
+  ADD CONSTRAINT `executor_categories_users__fk` FOREIGN KEY (`executor_id`) REFERENCES `users` (`user_id`);
 
 --
 -- Ограничения внешнего ключа таблицы `files`
@@ -340,23 +340,23 @@ ALTER TABLE `files`
 --
 ALTER TABLE `responses`
   ADD CONSTRAINT `responses_tasks__fk` FOREIGN KEY (`task_id`) REFERENCES `tasks` (`task_id`),
-  ADD CONSTRAINT `responses_users__fk` FOREIGN KEY (`executor_id`) REFERENCES `users` (`uses_id`);
+  ADD CONSTRAINT `responses_users__fk` FOREIGN KEY (`executor_id`) REFERENCES `users` (`user_id`);
 
 --
 -- Ограничения внешнего ключа таблицы `reviews`
 --
 ALTER TABLE `reviews`
   ADD CONSTRAINT `reviews_tasks__fk` FOREIGN KEY (`task_id`) REFERENCES `tasks` (`task_id`),
-  ADD CONSTRAINT `reviews_users__fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`uses_id`),
-  ADD CONSTRAINT `reviews_users__fk_2` FOREIGN KEY (`author_id`) REFERENCES `users` (`uses_id`);
+  ADD CONSTRAINT `reviews_users__fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
+  ADD CONSTRAINT `reviews_users__fk_2` FOREIGN KEY (`author_id`) REFERENCES `users` (`user_id`);
 
 --
 -- Ограничения внешнего ключа таблицы `tasks`
 --
 ALTER TABLE `tasks`
   ADD CONSTRAINT `tasks_categories__fk` FOREIGN KEY (`category_id`) REFERENCES `categories` (`category_id`),
-  ADD CONSTRAINT `tasks_users__fk` FOREIGN KEY (`customer_id`) REFERENCES `users` (`uses_id`),
-  ADD CONSTRAINT `tasks_users__fk_2` FOREIGN KEY (`executor_id`) REFERENCES `users` (`uses_id`);
+  ADD CONSTRAINT `tasks_users__fk` FOREIGN KEY (`customer_id`) REFERENCES `users` (`user_id`),
+  ADD CONSTRAINT `tasks_users__fk_2` FOREIGN KEY (`executor_id`) REFERENCES `users` (`user_id`);
 
 --
 -- Ограничения внешнего ключа таблицы `task_files`
