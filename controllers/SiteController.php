@@ -11,19 +11,6 @@ class SiteController extends SecuredController
 {
 
 
-//    public function init()
-//    {
-//        parent::init();
-//
-//        $user = null;
-//
-//        if ($id = Yii::$app->user->getId()) {
-//
-//            $user = User::findOne($id);
-//
-//        }
-//    }
-
     /**
      * {@inheritdoc}
      */
@@ -47,6 +34,10 @@ class SiteController extends SecuredController
      */
     public function actionIndex()
     {
+        if (!Yii::$app->user->isGuest) {
+
+            return $this->redirect('/tasks');
+        }
 
         $executors = User::find()
             ->joinWith('cities')
