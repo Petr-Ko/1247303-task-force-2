@@ -5,6 +5,7 @@ namespace app\models;
 use DateTime;
 use Yii;
 use yii\db\ActiveRecord;
+use yii\web\IdentityInterface;
 
 /**
  * This is the model class for table "users".
@@ -32,7 +33,7 @@ use yii\db\ActiveRecord;
  * @property Tasks[] $tasks
  * @property Tasks[] $tasksExecutor
  */
-class Users extends ActiveRecord
+class User extends ActiveRecord implements IdentityInterface
 {
     /**
      * {@inheritdoc}
@@ -175,12 +176,42 @@ class Users extends ActiveRecord
         return $this->hasMany(Tasks::class, ['executor_id' => 'user_id']);
     }
 
+    public function validatePassword($password)
+    {
+        return Yii::$app->security->validatePassword($password, $this->password_hash);
+    }
+
     /**
      * {@inheritdoc}
-     * @return UsersQuery the active query used by this AR class.
+     * @return UserQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new UsersQuery(get_called_class());
+        return new UserQuery(get_called_class());
+    }
+
+    public static function findIdentity($id)
+    {
+        return self::findOne($id);
+    }
+
+    public static function findIdentityByAccessToken($token, $type = null)
+    {
+        // TODO: Implement findIdentityByAccessToken() method.
+    }
+
+    public function getId()
+    {
+        return $this->getPrimaryKey();
+    }
+
+    public function getAuthKey()
+    {
+        // TODO: Implement getAuthKey() method.
+    }
+
+    public function validateAuthKey($authKey)
+    {
+        // TODO: Implement validateAuthKey() method.
     }
 }

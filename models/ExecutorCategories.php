@@ -13,7 +13,7 @@ use yii\db\ActiveRecord;
  * @property int $category_id
  *
  * @property Categories $category
- * @property Users $executor
+ * @property User $executor
  */
 class ExecutorCategories extends ActiveRecord
 {
@@ -34,7 +34,7 @@ class ExecutorCategories extends ActiveRecord
             [['executor_id', 'category_id'], 'required'],
             [['executor_id', 'category_id'], 'integer'],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Categories::class, 'targetAttribute' => ['category_id' => 'category_id']],
-            [['executor_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['executor_id' => 'user_id']],
+            [['executor_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['executor_id' => 'user_id']],
         ];
     }
 
@@ -63,11 +63,11 @@ class ExecutorCategories extends ActiveRecord
     /**
      * Gets query for [[Executor]].
      *
-     * @return \yii\db\ActiveQuery|UsersQuery
+     * @return \yii\db\ActiveQuery|UserQuery
      */
     public function getExecutor()
     {
-        return $this->hasOne(Users::class, ['user_id' => 'executor_id']);
+        return $this->hasOne(User::class, ['user_id' => 'executor_id']);
     }
 
     /**

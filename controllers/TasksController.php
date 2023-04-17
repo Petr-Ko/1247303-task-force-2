@@ -13,33 +13,8 @@ use yii\filters\VerbFilter;
 
 
 
-class TasksController extends Controller
+class TasksController extends SecuredController
 {
-    /**
-     * {@inheritdoc}
-     */
-/*    public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::class,
-                'only' => ['logout'],
-                'rules' => [
-                    [
-                        'actions' => ['logout'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::class,
-                'actions' => [
-                    'logout' => ['post'],
-                ],
-            ],
-        ];
-    }*/
 
     /**
      * {@inheritdoc}
@@ -89,4 +64,6 @@ class TasksController extends Controller
 
         return $this->render('view',['task' => $task,]);
     }
+
+
 }

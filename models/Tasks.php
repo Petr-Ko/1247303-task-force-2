@@ -22,8 +22,8 @@ use yii\db\ActiveRecord;
  * @property int|null $executor_id
  *
  * @property Categories $category
- * @property Users $customer
- * @property Users $executor
+ * @property User $customer
+ * @property User $executor
  * @property Responses[] $responses
  * @property Reviews[] $reviews
  * @property TaskFiles[] $taskFiles
@@ -50,8 +50,8 @@ class Tasks extends ActiveRecord
             [['description'], 'string'],
             [['status', 'title', 'latitude', 'longitude'], 'string', 'max' => 50],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Categories::class, 'targetAttribute' => ['category_id' => 'category_id']],
-            [['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['customer_id' => 'user_id']],
-            [['executor_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['executor_id' => 'user_id']],
+            [['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['customer_id' => 'user_id']],
+            [['executor_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['executor_id' => 'user_id']],
         ];
     }
 
@@ -89,21 +89,21 @@ class Tasks extends ActiveRecord
     /**
      * Gets query for [[Customer]].
      *
-     * @return \yii\db\ActiveQuery|UsersQuery
+     * @return \yii\db\ActiveQuery|UserQuery
      */
     public function getCustomer()
     {
-        return $this->hasOne(Users::class, ['user_id' => 'customer_id']);
+        return $this->hasOne(User::class, ['user_id' => 'customer_id']);
     }
 
     /**
      * Gets query for [[Executor]].
      *
-     * @return \yii\db\ActiveQuery|UsersQuery
+     * @return \yii\db\ActiveQuery|UserQuery
      */
     public function getExecutor()
     {
-        return $this->hasOne(Users::class, ['user_id' => 'executor_id']);
+        return $this->hasOne(User::class, ['user_id' => 'executor_id']);
     }
 
     /**

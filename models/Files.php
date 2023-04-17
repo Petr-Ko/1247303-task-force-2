@@ -12,7 +12,7 @@ use yii\db\ActiveRecord;
  * @property string $add_date
  * @property string $path
  *
- * @property Users $file
+ * @property User $file
  * @property TaskFiles[] $taskFiles
  */
 class Files extends ActiveRecord
@@ -34,7 +34,7 @@ class Files extends ActiveRecord
             [['add_date'], 'safe'],
             [['path'], 'required'],
             [['path'], 'string', 'max' => 256],
-            [['file_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['file_id' => 'avatar_file_id']],
+            [['file_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['file_id' => 'avatar_file_id']],
         ];
     }
 
@@ -53,11 +53,11 @@ class Files extends ActiveRecord
     /**
      * Gets query for [[File]].
      *
-     * @return \yii\db\ActiveQuery|UsersQuery
+     * @return \yii\db\ActiveQuery|UserQuery
      */
     public function getFile()
     {
-        return $this->hasOne(Users::class, ['avatar_file_id' => 'file_id']);
+        return $this->hasOne(User::class, ['avatar_file_id' => 'file_id']);
     }
 
     /**
