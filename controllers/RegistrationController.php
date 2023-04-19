@@ -4,7 +4,7 @@ namespace app\controllers;
 
 use app\models\Cities;
 use app\models\UserRegistrationForm;
-use app\models\Users;
+use app\models\User;
 use Yii;
 use yii\web\Controller;
 
@@ -36,7 +36,7 @@ class RegistrationController extends Controller
 
         if($registrationForm->load(Yii::$app->request->post()) && $registrationForm->validate()) {
 
-            $user = new Users();
+            $user = new User();
 
             $user->first_name =  $registrationForm->first_name;
             $user->last_name = $registrationForm->last_name;
@@ -47,7 +47,7 @@ class RegistrationController extends Controller
 
             if($user->save()){
 
-                return $this->redirect(Yii::$app->homeUrl);
+                return $this->goHome();
             }
         }
 

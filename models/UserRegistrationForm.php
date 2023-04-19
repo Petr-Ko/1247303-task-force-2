@@ -3,9 +3,9 @@
 namespace app\models;
 
 
-use app\models\Users;
+use app\models\User;
 
-class UserRegistrationForm extends Users
+class UserRegistrationForm extends User
 {
     public $first_name;
     public $last_name;

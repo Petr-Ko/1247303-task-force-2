@@ -16,7 +16,7 @@ use yii\db\ActiveRecord;
  * @property string $descrpiption
  * @property int $rejected
  *
- * @property Users $executor
+ * @property User $executor
  * @property Tasks $task
  */
 class Responses extends ActiveRecord
@@ -40,7 +40,7 @@ class Responses extends ActiveRecord
             [['task_id', 'executor_id', 'price', 'rejected'], 'integer'],
             [['descrpiption'], 'string'],
             [['task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tasks::class, 'targetAttribute' => ['task_id' => 'task_id']],
-            [['executor_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['executor_id' => 'user_id']],
+            [['executor_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['executor_id' => 'user_id']],
         ];
     }
 
@@ -63,11 +63,11 @@ class Responses extends ActiveRecord
     /**
      * Gets query for [[Executor]].
      *
-     * @return \yii\db\ActiveQuery|UsersQuery
+     * @return \yii\db\ActiveQuery|UserQuery
      */
     public function getExecutor()
     {
-        return $this->hasOne(Users::class, ['user_id' => 'executor_id']);
+        return $this->hasOne(User::class, ['user_id' => 'executor_id']);
     }
 
     /**

@@ -2,15 +2,15 @@
 
 namespace app\controllers;
 
-use app\models\Users;
+use app\models\User;
 use yii\web\Controller;
 
-class UserController extends Controller
+class UserController extends SecuredController
 {
 
     public function actionView($id)
     {
-        $user = Users::findOne($id);
+        $user = User::findOne($id);
 
 
         return $this->render('view',['user' => $user,]);

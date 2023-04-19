@@ -13,7 +13,7 @@ use yii\db\ActiveRecord;
  * @property string $latitude
  * @property string $longitude
  *
- * @property Users $city
+ * @property User $city
  */
 class Cities extends ActiveRecord
 {
@@ -33,7 +33,7 @@ class Cities extends ActiveRecord
         return [
             [['name', 'latitude', 'longitude'], 'required'],
             [['name', 'latitude', 'longitude'], 'string', 'max' => 50],
-            [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['city_id' => 'city_id']],
+            [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['city_id' => 'city_id']],
         ];
     }
 
@@ -53,11 +53,11 @@ class Cities extends ActiveRecord
     /**
      * Gets query for [[City]].
      *
-     * @return \yii\db\ActiveQuery|UsersQuery
+     * @return \yii\db\ActiveQuery|UserQuery
      */
     public function getCity()
     {
-        return $this->hasOne(Users::class, ['city_id' => 'city_id']);
+        return $this->hasOne(User::class, ['city_id' => 'city_id']);
     }
 
     /**
