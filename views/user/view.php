@@ -5,7 +5,7 @@
 /** @var  $user */
 
 use app\models\Categories;
-use app\models\Tasks;
+use app\models\Task;
 
 $this->title = 'Task Force, Пользователь: ' . $user->first_name .' '. $user->last_name;
 
@@ -74,8 +74,8 @@ $this->title = 'Task Force, Пользователь: ' . $user->first_name .' '
             <dt>Всего заказов</dt>
             <dd>
                 <?=
-                    Tasks::find([$user->user_id => 'executor_id'])->done()->count() .' выполнено '.
-                    Tasks::find([$user->user_id => 'executor_id'])->failed()->count().' провалено'
+                    Task::find([$user->user_id => 'executor_id'])->done()->count() .' выполнено '.
+                    Task::find([$user->user_id => 'executor_id'])->failed()->count().' провалено'
                 ?>
             </dd>
             <dt>Место в рейтинге</dt>

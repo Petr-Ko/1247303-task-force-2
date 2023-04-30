@@ -13,7 +13,7 @@ use yii\db\ActiveRecord;
  * @property int $file_id
  *
  * @property Files $file
- * @property Tasks $task
+ * @property Task $task
  */
 class TaskFiles extends ActiveRecord
 {
@@ -34,7 +34,7 @@ class TaskFiles extends ActiveRecord
             [['task_id', 'file_id'], 'required'],
             [['task_id', 'file_id'], 'integer'],
             [['file_id'], 'exist', 'skipOnError' => true, 'targetClass' => Files::class, 'targetAttribute' => ['file_id' => 'file_id']],
-            [['task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tasks::class, 'targetAttribute' => ['task_id' => 'task_id']],
+            [['task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Task::class, 'targetAttribute' => ['task_id' => 'task_id']],
         ];
     }
 
@@ -67,7 +67,7 @@ class TaskFiles extends ActiveRecord
      */
     public function getTask()
     {
-        return $this->hasOne(Tasks::class, ['task_id' => 'task_id']);
+        return $this->hasOne(Task::class, ['task_id' => 'task_id']);
     }
 
     /**

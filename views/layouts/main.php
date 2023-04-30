@@ -50,9 +50,11 @@ if ($id = Yii::$app->user->getId()) {
                 <li class="list-item">
                     <a href="#" class="link link--nav" >Мои задания</a>
                 </li>
+                <?php if(!Yii::$app->user->identity->is_executor): ?>
                 <li class="list-item">
-                    <a href="#" class="link link--nav" >Создать задание</a>
+                    <a href="<?= Url::to('/tasks/add') ?>" class="link link--nav" >Создать задание</a>
                 </li>
+                <?php endif; ?>
                 <li class="list-item">
                     <a href="#" class="link link--nav" >Настройки</a>
                 </li>

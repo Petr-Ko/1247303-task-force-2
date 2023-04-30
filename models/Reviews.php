@@ -17,7 +17,7 @@ use yii\db\ActiveRecord;
  * @property int $user_id
  *
  * @property User $author
- * @property Tasks $task
+ * @property Task $task
  * @property User $user
  */
 class Reviews extends ActiveRecord
@@ -40,7 +40,7 @@ class Reviews extends ActiveRecord
             [['task_id', 'author_id', 'score', 'text', 'user_id'], 'required'],
             [['task_id', 'author_id', 'score', 'user_id'], 'integer'],
             [['text'], 'string'],
-            [['task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tasks::class, 'targetAttribute' => ['task_id' => 'task_id']],
+            [['task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Task::class, 'targetAttribute' => ['task_id' => 'task_id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'user_id']],
             [['author_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['author_id' => 'uses_id']],
         ];
@@ -79,7 +79,7 @@ class Reviews extends ActiveRecord
      */
     public function getTask()
     {
-        return $this->hasOne(Tasks::class, ['task_id' => 'task_id']);
+        return $this->hasOne(Task::class, ['task_id' => 'task_id']);
     }
 
     /**

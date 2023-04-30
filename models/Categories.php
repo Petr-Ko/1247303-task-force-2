@@ -13,7 +13,7 @@ use yii\db\ActiveRecord;
  * @property string $icon
  *
  * @property ExecutorCategories[] $executorCategories
- * @property Tasks[] $tasks
+ * @property Task[] $tasks
  */
 class Categories extends ActiveRecord
 {
@@ -59,13 +59,13 @@ class Categories extends ActiveRecord
     }
 
     /**
-     * Gets query for [[Tasks]].
+     * Gets query for [[Task]].
      *
      * @return \yii\db\ActiveQuery|TasksQuery
      */
     public function getTasks()
     {
-        return $this->hasMany(Tasks::class, ['category_id' => 'category_id']);
+        return $this->hasMany(Task::class, ['category_id' => 'category_id']);
     }
 
     /**

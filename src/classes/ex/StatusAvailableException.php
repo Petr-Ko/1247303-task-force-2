@@ -2,7 +2,9 @@
 
 namespace TaskForce\classes\ex;
 
-class StatusAvailableException extends \Exception 
+use Exception;
+
+class StatusAvailableException extends Exception
 {
 
 }

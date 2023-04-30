@@ -28,7 +28,7 @@ use yii\db\ActiveRecord;
  * @property Reviews[] $reviews
  * @property TaskFiles[] $taskFiles
  */
-class Tasks extends ActiveRecord
+class Task extends ActiveRecord
 {
     /**
      * {@inheritdoc}

@@ -30,8 +30,8 @@ use yii\web\IdentityInterface;
  * @property Responses[] $responses
  * @property Reviews[] $reviews
  * @property Reviews[] $reviewsAuthor
- * @property Tasks[] $tasks
- * @property Tasks[] $tasksExecutor
+ * @property Task[] $tasks
+ * @property Task[] $tasksExecutor
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -157,13 +157,13 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * Gets query for [[Tasks]].
+     * Gets query for [[Task]].
      *
      * @return \yii\db\ActiveQuery|TasksQuery
      */
     public function getTasks()
     {
-        return $this->hasMany(Tasks::class, ['customer_id' => 'user_id']);
+        return $this->hasMany(Task::class, ['customer_id' => 'user_id']);
     }
 
     /**
@@ -173,7 +173,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function getTasksExecutor()
     {
-        return $this->hasMany(Tasks::class, ['executor_id' => 'user_id']);
+        return $this->hasMany(Task::class, ['executor_id' => 'user_id']);
     }
 
     public function validatePassword($password)
