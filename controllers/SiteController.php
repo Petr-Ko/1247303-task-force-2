@@ -35,7 +35,7 @@ class SiteController extends SecuredController
     public function actionIndex()
     {
         if (!Yii::$app->user->isGuest) {
-
+            
             return $this->redirect('/tasks');
         }
 

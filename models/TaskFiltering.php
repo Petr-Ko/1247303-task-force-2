@@ -53,7 +53,7 @@ class TaskFiltering extends Model
 
     public function filtration($params)
     {
-        $query = Tasks::find()->new();
+        $query = Task::find()->new();
 
 
         $dataProvider = new ActiveDataProvider([

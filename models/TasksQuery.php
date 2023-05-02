@@ -5,9 +5,9 @@ namespace app\models;
 use yii\db\ActiveQuery;
 
 /**
- * This is the ActiveQuery class for [[Tasks]].
+ * This is the ActiveQuery class for [[Task]].
  *
- * @see Tasks
+ * @see Task
  */
 class TasksQuery extends ActiveQuery
 {
@@ -35,7 +35,7 @@ class TasksQuery extends ActiveQuery
 
     /**
      * {@inheritdoc}
-     * @return Tasks[]|array
+     * @return Task[]|array
      */
     public function all($db = null)
     {
@@ -44,7 +44,7 @@ class TasksQuery extends ActiveQuery
 
     /**
      * {@inheritdoc}
-     * @return Tasks|array|null
+     * @return Task|array|null
      */
     public function one($db = null)
     {

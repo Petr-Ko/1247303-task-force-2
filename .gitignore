@@ -41,3 +41,5 @@ tests/_support/_generated
 *.psd
 *.sublime*
 
+#users uploads folder
+/web/uploads/
