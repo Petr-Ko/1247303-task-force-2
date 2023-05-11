@@ -85,15 +85,19 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      *
      */
-    public function getAge():int
+    public function getAge():?int
     {
         $today = new DateTime('now');
 
-        $birthday = new DateTime($this->birthday);
+        if($this->birthday) {
 
-        $age = $today->diff($birthday)->format("%y");
+            $birthday = new DateTime($this->birthday);
 
-        return $age;
+            $age = $today->diff($birthday)->format("%y");
+
+            return $age;
+        }
+        return null;
     }
 
     /**

@@ -3,9 +3,10 @@
 namespace app\models;
 
 use DateTime;
+use Yii;
 use yii\base\Model;
 
-class addTaskForm extends Model
+class AddTaskForm extends Model
 {
     public $title;
     public $description;
@@ -45,6 +46,42 @@ class addTaskForm extends Model
             'end_date' => 'Срок исполнения',
             'files' => 'Файлы',
         ];
+    }
+
+    public function CreateTask()
+    {
+        $task = new Task();
+        $task->status = 'new';
+        $task->customer_id = Yii::$app->user->getId();
+        $task->title = $this->title;
+        $task->description = $this->description;
+        $task->latitude = '.';
+        $task->longitude = '.';
+        $task->end_date = $this->end_date;
+        $task->price = (integer) $this->price;
+        $task->category_id = $this->category;
+
+        if($task->save()) return $task->task_id;
+
+    }
+
+    public function NewTaskFiles(array $filePaths, int $newTaskId)
+    {
+        $file = new Files();
+
+        $taskFiles = new TaskFiles();
+
+        foreach ($filePaths as $filePath) {
+
+            $file->path = $filePath;
+
+            if($file->save()) {
+
+                $taskFiles->task_id = $newTaskId;
+                $taskFiles->file_id = $file->file_id;
+                $taskFiles->save();
+            }
+        }
     }
 
     public function upload()

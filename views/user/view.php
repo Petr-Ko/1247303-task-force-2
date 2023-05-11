@@ -3,9 +3,12 @@
 /** @var yii */
 
 /** @var  $user */
+/** @var  $reviews */
 
 use app\models\Categories;
 use app\models\Task;
+use yii\helpers\Url;
+
 
 $this->title = 'Task Force, Пользователь: ' . $user->first_name .' '. $user->last_name;
 
@@ -42,30 +45,19 @@ $this->title = 'Task Force, Пользователь: ' . $user->first_name .' '
         </div>
     </div>
     <h4 class="head-regular">Отзывы заказчиков</h4>
+    <?php foreach ($reviews as $review): ?>
     <div class="response-card">
         <img class="customer-photo" src="/img/man-coat.png" width="120" height="127" alt="Фото заказчиков">
         <div class="feedback-wrapper">
-            <p class="feedback">«Кумар сделал всё в лучшем виде. Буду обращаться к нему в
-                будущем, если возникнет такая необходимость!»</p>
-            <p class="task">Задание «<a href="#" class="link link--small">Повесить полочку</a>» выполнено</p>
+            <p class="feedback"><?= $review->text ?></p>
+            <p class="task">Задание «<a href="<?= Url::to(['/tasks/view', 'id' => $review->task->task_id ]) ?>" class="link link--small"><?= $review->task->title ?></a>» <?= Task::STATUS_NAMES[$review->task->status] ?></p>
         </div>
         <div class="feedback-wrapper">
             <div class="stars-rating small"><span class="fill-star">&nbsp;</span><span class="fill-star">&nbsp;</span><span class="fill-star">&nbsp;</span><span class="fill-star">&nbsp;</span><span>&nbsp;</span></div>
-            <p class="info-text"><span class="current-time">25 минут </span>назад</p>
+            <p class="info-text"><span class="current-time"><?php echo Yii::$app->formatter->asRelativeTime($review->add_date); ?></p>
         </div>
     </div>
-    <div class="response-card">
-        <img class="customer-photo" src="/img/man-sweater.png" width="120" height="127" alt="Фото заказчиков">
-        <div class="feedback-wrapper">
-            <p class="feedback">«Кумар сделал всё в лучшем виде. Буду обращаться к нему в
-                будущем, если возникнет такая необходимость!»</p>
-            <p class="task">Задание «<a href="#" class="link link--small">Повесить полочку</a>» выполнено</p>
-        </div>
-        <div class="feedback-wrapper">
-            <div class="stars-rating small"><span class="fill-star">&nbsp;</span><span class="fill-star">&nbsp;</span><span class="fill-star">&nbsp;</span><span class="fill-star">&nbsp;</span><span>&nbsp;</span></div>
-            <p class="info-text"><span class="current-time">25 минут </span>назад</p>
-        </div>
-    </div>
+    <?php endforeach; ?>
 </div>
 <div class="right-column">
     <div class="right-card black">
@@ -74,14 +66,14 @@ $this->title = 'Task Force, Пользователь: ' . $user->first_name .' '
             <dt>Всего заказов</dt>
             <dd>
                 <?=
-                    Task::find([$user->user_id => 'executor_id'])->done()->count() .' выполнено '.
-                    Task::find([$user->user_id => 'executor_id'])->failed()->count().' провалено'
+                    $user->getTasks()->done()->count() .' выполнено '.
+                    $user->getTasks()->failed()->count().' провалено'
                 ?>
             </dd>
             <dt>Место в рейтинге</dt>
             <dd>25 место</dd>
             <dt>Дата регистрации</dt>
-            <dd><?= date_format(date_create($user->add_date), 'd-F-Y, H:i')?></dd>
+            <dd><?= date_format(date_create($user->add_date), 'd F Y, H:i')?></dd>
             <dt>Статус</dt>
             <dd>Открыт для новых заказов</dd>
         </dl>

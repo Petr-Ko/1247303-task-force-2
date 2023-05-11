@@ -3,12 +3,15 @@
 namespace app\controllers;
 
 
+use app\models\AddResponseForm;
 use app\models\addTaskForm;
 use app\models\Files;
+use app\models\ResponseActionsForm;
 use app\models\TaskFiles;
 use app\models\TaskFiltering;
 use app\models\Categories;
 use app\models\Task;
+use TaskForce\classes\actions\Task\RespondAction;
 use Yii;
 use yii\helpers\Url;
 use yii\web\UploadedFile;
@@ -16,7 +19,7 @@ use yii\web\UploadedFile;
 
 class TasksController extends SecuredController
 {
-    private function categoteries() {
+    private function categories() {
 
         return Categories::find()->select(['name'])->indexBy('category_id')->column();
     }
@@ -39,7 +42,7 @@ class TasksController extends SecuredController
     }
 
     /**
-     * Displays homepage.
+     * Displays page All Tasks.
      *
      * @return string
      */
@@ -56,17 +59,32 @@ class TasksController extends SecuredController
         return $this->render('index',
             [
                 'tasks_new' => $tasks_new,
-                'categories' => $this->categoteries(),
+                'categories' => $this->categories(),
                 'filterForm' => $filterForm,
                 'pages' => $pages,
             ]);
     }
 
+    /**
+     * Displays page One Task.
+     *
+     * @return string
+     */
     public function actionView($id)
     {
+
         $task = Task::findOne($id);
 
-        return $this->render('view',['task' => $task,]);
+        $responses = $task->responses;
+
+        $AddResponseForm = new AddResponseForm();
+
+        if($AddResponseForm->load(Yii::$app->request->post()) && $AddResponseForm->validate()) {
+
+            if($AddResponseForm->CreateResponse($id)) return $this->redirect(Url::to('/tasks/view/' . $id));
+        }
+
+        return $this->render('view',['task' => $task,'responses' => $responses,'AddResponseForm' => $AddResponseForm]);
     }
 
     public function actionAdd()
@@ -80,55 +98,24 @@ class TasksController extends SecuredController
 
         if($addForm->load(Yii::$app->request->post()) && $addForm->validate()) {
 
-            $resultAddTask = false;
-
-            $task = new Task();
-            $task->status = 'new';
-            $task->customer_id = Yii::$app->user->getId();
-            $task->title = $addForm->title;
-            $task->description = $addForm->description;
-            $task->latitude = '.';
-            $task->longitude = '.';
-            $task->end_date = $addForm->end_date;
-            $task->price = (integer) $addForm->price;
-            $task->category_id = $addForm->category;
-
-
-            if($task->save()){
-
-                $resultAddTask = true;
-            }
+            $newTaskId = $addForm->CreateTask();
 
             $addForm->files = UploadedFile::getInstances($addForm, 'files');
 
             $filePaths = $addForm->upload();
 
-            if(count($filePaths)) {
+            if(count($filePaths) & isset($newTaskId)) {
 
-                $file = new Files();
-
-                $taskFiles = new TaskFiles();
-
-                foreach ($filePaths as $filePath) {
-
-                    $file->path = $filePath;
-
-                    if($file->save()) {
-
-                        $taskFiles->task_id = $task->task_id;
-                        $taskFiles->file_id = $file->file_id;
-                        $taskFiles->save();
-                    }
-                }
+                $addForm->NewTaskFiles($filePaths, $newTaskId);
             }
 
-            if($resultAddTask) {
+            if(isset($newTaskId)) {
 
-                return $this->redirect(Url::to('/tasks/view/' . $task->task_id));
+
             }
         }
 
-        return $this->render('add',['addForm' => $addForm, 'categories' => $this->categoteries(),]);
+        return $this->render('add',['addForm' => $addForm, 'categories' => $this->categories(),]);
     }
 
 

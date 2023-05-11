@@ -2,11 +2,11 @@
 
 namespace TaskForce\classes;
 
-use TaskForce\classes\actions\CancelAction;
-use TaskForce\classes\actions\CompletedAction;
-use TaskForce\classes\actions\RefuseAction;
-use TaskForce\classes\actions\RespondAction;
-use TaskForce\classes\actions\ToWorkAction;
+use TaskForce\classes\actions\Task\CancelAction;
+use TaskForce\classes\actions\Task\CompletedAction;
+use TaskForce\classes\actions\Task\RefuseAction;
+use TaskForce\classes\actions\Task\RespondAction;
+use TaskForce\classes\actions\Task\ToWorkAction;
 use TaskForce\classes\ex\StatusAvailableException;
 
 class Task
