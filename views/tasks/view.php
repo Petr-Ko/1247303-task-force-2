@@ -5,6 +5,7 @@
 /** @var  $task */
 /** @var  $responses */
 /** @var  $AddResponseForm */
+/** @var  $CompletedTaskForm */
 
 
 use app\models\User;
@@ -63,15 +64,33 @@ $currentUser = (int) Yii::$app->user->getId();
             </p>
         </div>
         <div class="feedback-wrapper">
-            <p class="info-text"><span class="current-time"><?php echo Yii::$app->formatter->asRelativeTime($response->add_date); ?></span></p>
+            <p class="info-text"><span class="current-time"><?= Yii::$app->formatter->asRelativeTime($response->add_date); ?></span></p>
             <p class="price price--small"><?= $response->price ?> ₽</p>
         </div>
         <div class="button-popup">
-            <a href="#" class="button button--blue button--small">Принять</a>
-            <a href="#" class="button button--orange button--small">Отказать</a>
+            <?= Html::a('Принять',['/tasks/response'],
+                [
+                    'class' => 'button button--blue button--small',
+                    'data-method' => 'POST',
+                    'data-params' => [
+                        'response_id' => $response->response_id,
+                        'action' => 'accepted'
+                    ],
+                ]
+            ) ?>
+            <?= Html::a('Отказать',['/tasks/response'],
+                [
+                    'class' => 'button button--orange button--small',
+                    'data-method' => 'POST',
+                    'data-params' => [
+                        'response_id' => $response->response_id,
+                        'action' => 'rejected'
+                    ],
+                ]
+            ) ?>
         </div>
-        <?php endif; ?>
     </div>
+    <?php endif; ?>
     <?php endforeach; ?>
     <?php endif; ?>
 </div>
@@ -111,7 +130,15 @@ $currentUser = (int) Yii::$app->user->getId();
             Вы собираетесь отказаться от выполнения этого задания.<br>
             Это действие плохо скажется на вашем рейтинге и увеличит счетчик проваленных заданий.
         </p>
-        <a class="button button--pop-up button--orange">Отказаться</a>
+        <?= Html::a('Отказаться',['/tasks/refused'],
+            [
+                'class' => 'button button--pop-up button--orange',
+                'data-method' => 'POST',
+                'data-params' => [
+                    'task_id' => $task->task_id,
+                ],
+            ]
+        ) ?>
         <div class="button-container">
             <button class="button--close" type="button">Закрыть окно</button>
         </div>
@@ -125,15 +152,19 @@ $currentUser = (int) Yii::$app->user->getId();
             Пожалуйста, оставьте отзыв об исполнителе и отметьте отдельно, если возникли проблемы.
         </p>
         <div class="completion-form pop-up--form regular-form">
-            <form>
-                <div class="form-group">
-                    <label class="control-label" for="completion-comment">Ваш комментарий</label>
-                    <textarea id="completion-comment"></textarea>
-                </div>
-                <p class="completion-head control-label">Оценка работы</p>
-                <div class="stars-rating big active-stars"><span>&nbsp;</span><span>&nbsp;</span><span>&nbsp;</span><span>&nbsp;</span><span>&nbsp;</span></div>
-                <input type="submit" class="button button--pop-up button--blue" value="Завершить">
-            </form>
+            <?php $CompletedForm = ActiveForm::begin([
+                'id' => 'form',
+                'method' => 'post',
+                'options' => ['class' => 'form-group'],
+                'fieldConfig' => [
+                    'options' => ['class' => 'form-group'],
+                    'template' => "{label}\n{input}\n{error}\n",
+                ],
+            ]); ?>
+            <?= $CompletedForm->field($CompletedTaskForm, 'text')->textarea() ?>
+            <?= $CompletedForm->field($CompletedTaskForm, 'score')->input('number') ?>
+            <?= Html::input('submit', null, 'Завершить', ['class' => 'button button--pop-up button--blue']); ?>
+            <?php ActiveForm::end(); ?>
         </div>
         <div class="button-container">
             <button class="button--close" type="button">Закрыть окно</button>
@@ -161,7 +192,6 @@ $currentUser = (int) Yii::$app->user->getId();
                 <?= $ResponseForm->field($AddResponseForm, 'price')->input('number') ?>
                 <?= Html::input('submit', null, 'Завершить', ['class' => 'button button--pop-up button--blue']); ?>
             <?php ActiveForm::end(); ?>
-
         </div>
         <div class="button-container">
             <button class="button--close" type="button">Закрыть окно</button>

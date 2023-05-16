@@ -10,10 +10,6 @@ class CancelAction extends AbstractAction
     protected string $name = "Отменить";
     protected string $code = "Cancel";
 
-    public static function isAvialable($task, ?int $currentUser)
-    {
-    }
-
 
     public function isAvailable(Task $task, int $currentUserId): bool
     {
@@ -24,4 +20,6 @@ class CancelAction extends AbstractAction
 
         return false;
     }
+
+
 }
