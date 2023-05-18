@@ -6,7 +6,7 @@ use Yii;
 use yii\db\ActiveRecord;
 
 /**
- * This is the model class for table "tasks".
+ * This is the model class for table 'tasks'.
  *
  * @property int $task_id
  * @property string $add_date
@@ -30,6 +30,21 @@ use yii\db\ActiveRecord;
  */
 class Task extends ActiveRecord
 {
+
+    public const STATUS_NEW = 'new';
+    public const STATUS_CANCELLED = 'cancelled';
+    public const STATUS_IN_PROGRESS = 'in_progress';
+    public const STATUS_DONE = 'done';
+    public const STATUS_FAILED = 'failed';
+
+    public const STATUS_NAMES = [
+        'new' => 'Новое',
+        'cancelled' => 'Отменено',
+        'in_progress' => 'В работе',
+        'done' => 'Выполнено',
+        'failed' => 'Провалено'
+    ];
+
     /**
      * {@inheritdoc}
      */

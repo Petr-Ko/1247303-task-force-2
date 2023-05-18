@@ -13,7 +13,7 @@ use yii\db\ActiveRecord;
  * @property int $task_id
  * @property int $executor_id
  * @property int $price
- * @property string $descrpiption
+ * @property string $description
  * @property int $rejected
  *
  * @property User $executor
@@ -36,9 +36,9 @@ class Responses extends ActiveRecord
     {
         return [
             [['add_date'], 'safe'],
-            [['task_id', 'executor_id', 'price', 'descrpiption', 'rejected'], 'required'],
+            [['task_id', 'executor_id', 'price', 'description', 'rejected'], 'required'],
             [['task_id', 'executor_id', 'price', 'rejected'], 'integer'],
-            [['descrpiption'], 'string'],
+            [['description'], 'string'],
             [['task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Task::class, 'targetAttribute' => ['task_id' => 'task_id']],
             [['executor_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['executor_id' => 'user_id']],
         ];
@@ -55,8 +55,8 @@ class Responses extends ActiveRecord
             'task_id' => 'Task ID',
             'executor_id' => 'Executor ID',
             'price' => 'Price',
-            'descrpiption' => 'Descrpiption',
-            'rejected' => 'Rejected',
+            'description' => 'Description',
+            'rejected' => 'RejectedAction',
         ];
     }
 

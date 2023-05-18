@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Reviews;
 use app\models\User;
 use yii\web\Controller;
 
@@ -12,8 +13,9 @@ class UserController extends SecuredController
     {
         $user = User::findOne($id);
 
+        $reviews = $user->reviews;
 
-        return $this->render('view',['user' => $user,]);
+        return $this->render('view',['user' => $user,'reviews' => $reviews]);
     }
 
 }
