@@ -4,8 +4,8 @@
 
 /** @var  $task */
 /** @var  $responses */
-/** @var  $AddResponseForm */
-/** @var  $CompletedTaskForm */
+/** @var  $addResponseForm */
+/** @var  $completedTaskForm */
 
 
 use app\models\User;
@@ -161,8 +161,8 @@ $currentUser = (int) Yii::$app->user->getId();
                     'template' => "{label}\n{input}\n{error}\n",
                 ],
             ]); ?>
-            <?= $CompletedForm->field($CompletedTaskForm, 'text')->textarea() ?>
-            <?= $CompletedForm->field($CompletedTaskForm, 'score')->input('number') ?>
+            <?= $CompletedForm->field($completedTaskForm, 'text')->textarea() ?>
+            <?= $CompletedForm->field($completedTaskForm, 'score')->input('number') ?>
             <?= Html::input('submit', null, 'Завершить', ['class' => 'button button--pop-up button--blue']); ?>
             <?php ActiveForm::end(); ?>
         </div>
@@ -188,8 +188,8 @@ $currentUser = (int) Yii::$app->user->getId();
                         'template' => "{label}\n{input}\n{error}\n",
                         ],
             ]); ?>
-                <?= $ResponseForm->field($AddResponseForm, 'description')->textarea() ?>
-                <?= $ResponseForm->field($AddResponseForm, 'price')->input('number') ?>
+                <?= $ResponseForm->field($addResponseForm, 'description')->textarea() ?>
+                <?= $ResponseForm->field($addResponseForm, 'price')->input('number') ?>
                 <?= Html::input('submit', null, 'Завершить', ['class' => 'button button--pop-up button--blue']); ?>
             <?php ActiveForm::end(); ?>
         </div>

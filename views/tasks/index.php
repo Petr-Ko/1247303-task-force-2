@@ -3,7 +3,7 @@
 /** @var yii\web\View $this */
 /** @var yii */
 
-/** @var  $tasks_new */
+/** @var  $tasksNew */
 /** @var  $filterForm */
 /** @var  $categories */
 /** @var  $pages */
@@ -20,7 +20,7 @@ $this->title = 'Новые задания, Task Force';
 
 <div class="left-column">
     <h3 class="head-main head-task">Новые задания</h3>
-    <?php foreach($tasks_new as $task): ?>
+    <?php foreach($tasksNew as $task): ?>
     <div class="task-card">
         <div class="header-task">
             <a  href="<?= Url::to(['/tasks/view', 'id' => $task->task_id]) ?>" class="link link--block link--big"><?=$task->title ?> </a>
