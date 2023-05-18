@@ -101,6 +101,26 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
+     *
+     */
+
+    public function getRating()
+    {
+        $sumScore = (int)$this->getReviews()->sumScore();
+        $amountReviews = (int) $this->getReviews()->count();
+        $amountFailedTasks = (int) $this->getTasks()->failed()->count();
+
+        if ($amountReviews && $amountFailedTasks) {
+
+            $rating = $sumScore/($amountReviews + $amountFailedTasks);
+            return round($rating, 0, PHP_ROUND_HALF_UP);
+        }
+        else return 0;
+
+    }
+
+
+    /**
      * Gets query for [[Cities]].
      *
      * @return \yii\db\ActiveQuery|CitiesQuery

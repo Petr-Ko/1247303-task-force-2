@@ -71,7 +71,7 @@ $this->title = 'Task Force, Пользователь: ' . $user->first_name .' '
                 ?>
             </dd>
             <dt>Место в рейтинге</dt>
-            <dd>25 место</dd>
+            <dd><?= $user->rating ?> место</dd>
             <dt>Дата регистрации</dt>
             <dd><?= date_format(date_create($user->add_date), 'd F Y, H:i')?></dd>
             <dt>Статус</dt>
