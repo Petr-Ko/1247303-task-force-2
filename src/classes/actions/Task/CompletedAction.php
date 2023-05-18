@@ -11,7 +11,7 @@ class CompletedAction extends AbstractAction
 
     public function isAvailable(Task $task, int $currentUserId): bool
     {
-        if ($currentUserId === $task->customer_id & $task->status === $task::STATUS_IN_PROGRESS) {
+        if ($currentUserId === $task->customer_id && $task->status === $task::STATUS_IN_PROGRESS) {
             return true;
         }
 

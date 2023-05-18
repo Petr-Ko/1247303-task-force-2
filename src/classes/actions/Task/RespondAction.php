@@ -13,7 +13,7 @@ class RespondAction extends AbstractAction
 
     public function isAvailable(Task $task, int $currentUserId): bool
     {
-        if (User::findOne($currentUserId)->is_executor & !$task->executor_id & $task->status === $task::STATUS_NEW) {
+        if (User::findOne($currentUserId)->is_executor && !$task->executor_id && $task->status === $task::STATUS_NEW) {
             return true;
         }
         return false;

@@ -6,10 +6,7 @@ namespace app\controllers;
 use app\models\AddResponseForm;
 use app\models\addTaskForm;
 use app\models\CompletedTaskForm;
-use app\models\Files;
-use app\models\ResponseActionsForm;
 use app\models\Responses;
-use app\models\TaskFiles;
 use app\models\TaskFiltering;
 use app\models\Categories;
 use app\models\Task;
@@ -54,13 +51,13 @@ class TasksController extends SecuredController
 
         $provider = $filterForm->filtration(Yii::$app->request->get());
 
-        $tasks_new = $provider->getModels();
+        $tasksNew = $provider->getModels();
 
         $pages = $provider->getPagination();
 
         return $this->render('index',
             [
-                'tasks_new' => $tasks_new,
+                'tasksNew' => $tasksNew,
                 'categories' => $this->categories(),
                 'filterForm' => $filterForm,
                 'pages' => $pages,
@@ -79,21 +76,21 @@ class TasksController extends SecuredController
 
         $responses = $task->responses;
 
-        $AddResponseForm = new AddResponseForm();
+        $addResponseForm = new AddResponseForm();
 
-        $CompletedTaskForm = new CompletedTaskForm();
+        $completedTaskForm = new CompletedTaskForm();
 
-        if($AddResponseForm->load(Yii::$app->request->post()) && $AddResponseForm->validate()) {
+        if($addResponseForm->load(Yii::$app->request->post()) && $addResponseForm->validate()) {
 
-            if($AddResponseForm->CreateResponse($id)) {
+            if($addResponseForm->CreateResponse($id)) {
 
                 return $this->redirect(Url::to('/tasks/view/' . $id));
             }
         }
 
-        if($CompletedTaskForm->load(Yii::$app->request->post()) && $CompletedTaskForm->validate()) {
+        if($completedTaskForm->load(Yii::$app->request->post()) && $completedTaskForm->validate()) {
 
-            if($CompletedTaskForm->CloseTask($task)){
+            if($completedTaskForm->CloseTask($task)){
 
                 return $this->redirect('/');
             }
@@ -103,8 +100,8 @@ class TasksController extends SecuredController
             [
                 'task' => $task,
                 'responses' => $responses,
-                'AddResponseForm' => $AddResponseForm,
-                'CompletedTaskForm' => $CompletedTaskForm,
+                'addResponseForm' => $addResponseForm,
+                'completedTaskForm' => $completedTaskForm,
             ]
         );
     }

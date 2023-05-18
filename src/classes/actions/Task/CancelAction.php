@@ -14,7 +14,7 @@ class CancelAction extends AbstractAction
     public function isAvailable(Task $task, int $currentUserId): bool
     {
 
-        if ($currentUserId === $task->customer_id & $task->status === $task::STATUS_NEW) {
+        if ($currentUserId === $task->customer_id && $task->status === $task::STATUS_NEW) {
             return true;
         }
 
