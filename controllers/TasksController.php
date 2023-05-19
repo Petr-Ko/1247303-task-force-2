@@ -80,9 +80,9 @@ class TasksController extends SecuredController
 
         $completedTaskForm = new CompletedTaskForm();
 
-        if($addResponseForm->load(Yii::$app->request->post()) && $addResponseForm->validate()) {
+        if ($addResponseForm->load(Yii::$app->request->post()) && $addResponseForm->validate()) {
 
-            if($addResponseForm->CreateResponse($id)) {
+            if ($addResponseForm->CreateResponse($id)) {
 
                 return $this->redirect(Url::to('/tasks/view/' . $id));
             }
@@ -90,7 +90,7 @@ class TasksController extends SecuredController
 
         if($completedTaskForm->load(Yii::$app->request->post()) && $completedTaskForm->validate()) {
 
-            if($completedTaskForm->CloseTask($task)){
+            if ($completedTaskForm->CloseTask($task)){
 
                 return $this->redirect('/');
             }
@@ -108,14 +108,14 @@ class TasksController extends SecuredController
 
     public function actionAdd()
     {
-        if(Yii::$app->user->identity->is_executor) {
+        if (Yii::$app->user->identity->is_executor) {
 
             return $this->redirect('index');
         }
 
         $addForm = new AddTaskForm();
 
-        if($addForm->load(Yii::$app->request->post()) && $addForm->validate()) {
+        if ($addForm->load(Yii::$app->request->post()) && $addForm->validate()) {
 
             $newTaskId = $addForm->CreateTask();
 
@@ -128,7 +128,7 @@ class TasksController extends SecuredController
                 $addForm->NewTaskFiles($filePaths, $newTaskId);
             }
 
-            if(isset($newTaskId)) {
+            if (isset($newTaskId)) {
 
                 return $this->redirect(Url::to('/tasks/view/' . $newTaskId));
 
@@ -142,7 +142,7 @@ class TasksController extends SecuredController
     {
         $taskId = Yii::$app->request->post('task_id', null);
 
-        if($taskId) {
+        if ($taskId) {
 
             $task = Task::findOne($taskId);
             $task->status = Task::STATUS_FAILED;
@@ -162,7 +162,7 @@ class TasksController extends SecuredController
         $response = Responses::findOne($responseId);
 
 
-        if($responseId && $typeAction === 'rejected') {
+        if ($responseId && $typeAction === 'rejected') {
 
             $response->rejected = 1;
 
@@ -172,7 +172,7 @@ class TasksController extends SecuredController
             }
         }
 
-        if($responseId && $typeAction === 'accepted') {
+        if ($responseId && $typeAction === 'accepted') {
 
             $task = Task::findOne($response->task_id);
 

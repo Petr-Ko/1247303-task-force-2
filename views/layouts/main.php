@@ -84,7 +84,7 @@ if ($id = Yii::$app->user->getId()) {
     </div>
 </header>
 <?php endif; ?>
-<main class="main-content container">
+<main class="main-content container <?= (Yii::$app->request->url === '/user/edit') ? 'main-content--left container' : '' ?>">
     <?= $content ?>
 </main>
 <?php $this->endBody() ?>
