@@ -6,7 +6,9 @@ use app\models\Categories;
 use app\models\EditUserForm;
 use app\models\User;
 use Yii;
-use yii\web\Controller;
+use yii\helpers\Url;
+use yii\web\UploadedFile;
+
 
 class UserController extends SecuredController
 {
@@ -16,6 +18,8 @@ class UserController extends SecuredController
         $user = User::findOne($id);
 
         $reviews = $user->reviews;
+
+
 
         return $this->render('view', ['user' => $user, 'reviews' => $reviews]);
     }
@@ -32,7 +36,18 @@ class UserController extends SecuredController
 
         if ($editUserForm->load(Yii::$app->request->post()) && $editUserForm->validate()) {
 
-            //var_dump($editUserForm->saveChanges($currentUser));
+            if (UploadedFile::getInstance($editUserForm, 'avatar')) {
+
+                $editUserForm->avatar = UploadedFile::getInstance($editUserForm, 'avatar');
+
+                $editUserForm->newAvatar($editUserForm->uploadAvatar($editUserForm->avatar), $currentUser);
+            }
+
+
+            if ($editUserForm->saveChanges($currentUser)) {
+
+                return $this->redirect(Url::to('/user/view/' . $currentUser->user_id));
+            }
         }
 
         return $this->render('edit',

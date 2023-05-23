@@ -5,6 +5,7 @@ namespace app\models;
 use DateTime;
 use Yii;
 use yii\db\ActiveRecord;
+use yii\helpers\Url;
 use yii\web\IdentityInterface;
 
 /**
@@ -100,6 +101,17 @@ class User extends ActiveRecord implements IdentityInterface
         return null;
     }
 
+    public function getAvatar()
+    {
+
+       if (!$this->avatar_file_id) {
+
+            return Url::to('/img/avatars/default.jpg');
+       }
+
+        return  Url::to('/' . $this->files->path);
+    }
+
     /**
      *
      */
@@ -113,7 +125,7 @@ class User extends ActiveRecord implements IdentityInterface
         if ($amountReviews && $amountFailedTasks) {
 
             $rating = $sumScore/($amountReviews + $amountFailedTasks);
-            return round($rating, 0, PHP_ROUND_HALF_UP);
+            return round($rating, 2, PHP_ROUND_HALF_UP);
         }
         else return 0;
 

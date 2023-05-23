@@ -153,7 +153,8 @@ class TasksController extends SecuredController
         }
     }
 
-    public function actionResponse() {
+    public function actionResponse()
+    {
 
         $responseId = Yii::$app->request->post('response_id', null);
 
@@ -183,8 +184,11 @@ class TasksController extends SecuredController
                 return $this->redirect(Url::to('/tasks/view/' . $task->task_id));
             }
         }
+    }
 
-
+    public function actionMy()
+    {
+        return $this->render('my');
     }
 
 

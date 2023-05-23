@@ -42,8 +42,8 @@ $this->title = 'Task Force, Настройки пользователя: ' . $cu
     <div class="photo-editing">
         <div>
             <p class="form-label">Аватар</p>
-            <img class="avatar-preview" src="/img/man-glasses.png" width="83" height="83">
-            <?= $form->field($editUserForm, 'avatar')->input('file') ?>
+            <img class="avatar-preview" src="<?= $currentUser->avatar ?>" width="83" height="83">
+            <?= $form->field($editUserForm, 'avatar')->fileInput() ?>
         </div>
     </div>
     <?= $form->field($editUserForm, 'firstName')->input('text', [ 'value' => "$currentUser->first_name"]) ?>
@@ -57,19 +57,13 @@ $this->title = 'Task Force, Настройки пользователя: ' . $cu
         <?= $form->field($editUserForm, 'telegram')->input('text', [ 'value' => "$currentUser->telegram"]) ?>
     </div>
     <?= $form->field($editUserForm, 'information')->textarea([ 'value' => "$currentUser->information"]) ?>
-    <?= $form->field($editUserForm, 'categories', ['template'=> "{input}\n",])->checkboxList($categories,
+    <?php  $editUserForm->categories = $editUserForm->userCategories($currentUser->user_id) ?>
+    <?= $form->field($editUserForm, 'categories', ['template' => "{label}\n{input}\n{error}\n",])->
+        checkboxList($categories,
             [
-                'unselect' => null,
-                'class'=> 'checkbox-profile',
-                'item' => function ($index, $label, $name, $checked, $value)
-                {
-
-                    return
-                        "<label class='control-label'>"
-                        . Html::checkbox($name, $checked, ['value' => $value]) . $label
-                        . "</label>";
-                }
-            ]) ?>
+                'class' => 'checkbox-profile',
+                'itemOptions' => ['labelOptions' => ['class' => 'control-label'],],
+            ])?>
     <?= Html::input('submit',null, 'Сохранить',['class' => 'button button--blue']) ?>
   <?php ActiveForm::end(); ?>
 </div>

@@ -49,14 +49,21 @@ $currentUser = (int) Yii::$app->user->getId();
     <?php foreach ($responses as $response): ?>
     <?php if(!$response->rejected): ?>
     <div class="response-card">
-        <img class="customer-photo" src="/img/man-glasses.png" width="146" height="156" alt="Фото заказчиков">
+        <?php $executor = User::findOne($response->executor_id); ?>
+        <img class="customer-photo" src="<?= $executor->avatar ?>" width="146" height="156" alt="Фото заказчиков">
         <div class="feedback-wrapper">
-            <?php $executor = User::findOne($response->executor_id); ?>
             <a href="<?= Url::to(['user/view', 'id' => $executor->user_id]); ?>" class="link link--block link--big">
                 <?= $executor->first_name . ' ' .$executor->last_name; ?>
             </a>
             <div class="response-wrapper">
-                <div class="stars-rating small"><span class="fill-star">&nbsp;</span><span class="fill-star">&nbsp;</span><span class="fill-star">&nbsp;</span><span class="fill-star">&nbsp;</span><span>&nbsp;</span></div>
+                <div class="stars-rating small">
+                    <?php for ($i = 1; $i <= (int) $executor->rating; $i++): ?>
+                        <span class="fill-star"></span>
+                    <?php endfor; ?>
+                    <?php for ($i = 1; $i <= 5 - (int) $executor->rating; $i++): ?>
+                        <span></span>
+                    <?php endfor; ?>
+                </div>
                 <p class="reviews"><?= $executor->getReviews()->count() . ' отзыва' ?></p>
             </div>
             <p class="response-message">

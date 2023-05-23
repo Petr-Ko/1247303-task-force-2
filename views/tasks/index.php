@@ -31,7 +31,7 @@ $this->title = 'Новые задания, Task Force';
         <div class="footer-task">
             <p class="info-text town-text">Санкт-Петербург, Центральный район</p>
             <p class="info-text category-text"><?=$task->category->name ?></p>
-            <a href="#" class="button button--black">Смотреть Задание</a>
+            <a href="<?= Url::to(['/tasks/view', 'id' => $task->task_id]) ?>" class="button button--black">Смотреть Задание</a>
         </div>
     </div>
     <?php endforeach; ?>
