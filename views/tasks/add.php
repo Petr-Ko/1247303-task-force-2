@@ -8,8 +8,9 @@
 use yii\widgets\ActiveForm;
 use yii\bootstrap5\Html;
 
-
 $this->title = "Task Force, Создание задания";
+
+
 ?>
 
 <div class="add-task-form regular-form">
@@ -23,13 +24,13 @@ $this->title = "Task Force, Создание задания";
         ],
     ]); ?>
     <h3 class="head-main head-main">Публикация нового задания</h3>
-    <?= $form->field($addForm,'title')->textInput() ?>
-    <?= $form->field($addForm,'description')->textarea() ?>
+    <?= $form->field($addForm, 'title')->textInput() ?>
+    <?= $form->field($addForm, 'description')->textarea() ?>
     <?= $form->field($addForm, 'category')->dropDownList($categories) ?>
-    <?= $form->field($addForm,'location')->textInput(['class' => 'location-icon']) ?>
-    <?= $form->field($addForm,'price')->input('number',['class' => 'budget-icon']) ?>
-    <?= $form->field($addForm,'end_date')->input('date') ?>
-    <?= $form->field($addForm,'files')->fileInput(['multiple'=>true]) ?>
-    <?= Html::input('submit',null, 'Опубликовать',['class' => 'button button--blue']) ?>
+    <?= $form->field($addForm, 'location')->textInput(['class' => 'location-icon']) ?>
+    <?= $form->field($addForm, 'price')->input('number', ['class' => 'budget-icon']) ?>
+    <?= $form->field($addForm, 'end_date')->input('date') ?>
+    <?= $form->field($addForm, 'files')->fileInput(['multiple'=> true]) ?>
+    <?= Html::input('submit', null, 'Опубликовать', ['class' => 'button button--blue']) ?>
     <?php ActiveForm::end(); ?>
 </div>

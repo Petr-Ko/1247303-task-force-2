@@ -86,7 +86,7 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      *
      */
-    public function getAge():?int
+    public function getAge(): ?int
     {
         $today = new DateTime('now');
 
@@ -104,10 +104,10 @@ class User extends ActiveRecord implements IdentityInterface
     public function getAvatar()
     {
 
-       if (!$this->avatar_file_id) {
+        if (!$this->avatar_file_id) {
 
             return Url::to('/img/avatars/default.jpg');
-       }
+        }
 
         return  Url::to('/' . $this->files->path);
     }
@@ -126,8 +126,9 @@ class User extends ActiveRecord implements IdentityInterface
 
             $rating = $sumScore/($amountReviews + $amountFailedTasks);
             return round($rating, 2, PHP_ROUND_HALF_UP);
+        } else {
+            return 0;
         }
-        else return 0;
 
     }
 

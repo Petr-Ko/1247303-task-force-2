@@ -12,6 +12,6 @@ return [
     'phone' => substr($faker->e164PhoneNumber, 1, 11),
     'information' => $faker->realText(300),
     'birthday' => $faker->date(),
-    'city_id' => random_int(1,1087),
-    'is_executor' =>random_int(0,1),
+    'city_id' => random_int(1, 49),
+    'is_executor' =>random_int(0, 1),
 ];

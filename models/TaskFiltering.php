@@ -5,8 +5,7 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use \DateTime;
-
+use DateTime;
 
 class TaskFiltering extends Model
 {
@@ -15,7 +14,8 @@ class TaskFiltering extends Model
     public $period;
 
 
-    public function formName() {
+    public function formName()
+    {
         return 'filter';
     }
 
@@ -36,12 +36,12 @@ class TaskFiltering extends Model
             ];
     }
 
-    public function additional():array
+    public function additional(): array
     {
-       return ['Без исполнителя'];
+        return ['Без исполнителя'];
     }
 
-    public function period():array
+    public function period(): array
     {
         return
             [

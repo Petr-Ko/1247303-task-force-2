@@ -11,7 +11,6 @@
 use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 
-
 $this->title = 'Task Force, Настройки пользователя: ' . $currentUser->first_name .' '. $currentUser->last_name;
 
 ?>
@@ -53,17 +52,21 @@ $this->title = 'Task Force, Настройки пользователя: ' . $cu
         <?= $form->field($editUserForm, 'birthday')->input('date', [ 'value' => "$currentUser->birthday"]) ?>
     </div>
     <div class="half-wrapper">
-        <?= $form->field($editUserForm, 'phoneNumber')->input('number',[ 'value' => "$currentUser->phone"]) ?>
+        <?= $form->field($editUserForm, 'phoneNumber')->input('number', [ 'value' => "$currentUser->phone"]) ?>
         <?= $form->field($editUserForm, 'telegram')->input('text', [ 'value' => "$currentUser->telegram"]) ?>
     </div>
     <?= $form->field($editUserForm, 'information')->textarea([ 'value' => "$currentUser->information"]) ?>
     <?php  $editUserForm->categories = $editUserForm->userCategories($currentUser->user_id) ?>
+    <?php if($currentUser->is_executor): ?>
     <?= $form->field($editUserForm, 'categories', ['template' => "{label}\n{input}\n{error}\n",])->
-        checkboxList($categories,
+        checkboxList(
+            $categories,
             [
                 'class' => 'checkbox-profile',
                 'itemOptions' => ['labelOptions' => ['class' => 'control-label'],],
-            ])?>
-    <?= Html::input('submit',null, 'Сохранить',['class' => 'button button--blue']) ?>
+            ]
+        )?>
+    <?php endif; ?>
+    <?= Html::input('submit', null, 'Сохранить', ['class' => 'button button--blue']) ?>
   <?php ActiveForm::end(); ?>
 </div>

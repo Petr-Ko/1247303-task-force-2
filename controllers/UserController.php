@@ -9,10 +9,8 @@ use Yii;
 use yii\helpers\Url;
 use yii\web\UploadedFile;
 
-
 class UserController extends SecuredController
 {
-
     public function actionView($id)
     {
         $user = User::findOne($id);
@@ -50,7 +48,8 @@ class UserController extends SecuredController
             }
         }
 
-        return $this->render('edit',
+        return $this->render(
+            'edit',
             [
                 'currentUser' => $currentUser,
                 'categories' => $categories,

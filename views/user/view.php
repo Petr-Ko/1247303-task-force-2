@@ -79,7 +79,7 @@ $this->title = 'Task Force, Пользователь: ' . $user->first_name .' '
                 <?=
                     $user->getTasks()->done()->count() .' выполнено '.
                     $user->getTasks()->failed()->count().' провалено'
-                ?>
+?>
             </dd>
             <dt>Место в рейтинге</dt>
             <dd><?= $user->rating ?> место</dd>

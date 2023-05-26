@@ -13,9 +13,7 @@ use yii\bootstrap5\Html;
 use yii\widgets\ActiveForm;
 use yii\widgets\LinkPager;
 
-
 $this->title = 'Новые задания, Task Force';
-
 ?>
 
 <div class="left-column">
@@ -29,7 +27,7 @@ $this->title = 'Новые задания, Task Force';
         <p class="info-text"><span class="current-time"><?php echo Yii::$app->formatter->asRelativeTime($task->add_date); ?></span></p>
         <p class="task-text"><?=$task->description ?></p>
         <div class="footer-task">
-            <p class="info-text town-text">Санкт-Петербург, Центральный район</p>
+            <p class="info-text town-text"><?= $task->address['city'] ?? 'Город не определен' ?></p>
             <p class="info-text category-text"><?=$task->category->name ?></p>
             <a href="<?= Url::to(['/tasks/view', 'id' => $task->task_id]) ?>" class="button button--black">Смотреть Задание</a>
         </div>
@@ -37,72 +35,80 @@ $this->title = 'Новые задания, Task Force';
     <?php endforeach; ?>
     <div class="pagination-wrapper">
     <?= LinkPager::widget([
-            'pagination' => $pages,
-            'options' => ['class' => 'pagination-list',],
-            'prevPageCssClass' => 'pagination-item mark',
-            'nextPageCssClass' => 'pagination-item mark',
-            'nextPageLabel' => '',
-            'prevPageLabel' => '',
-            'activePageCssClass' => 'pagination-item--active',
-            'linkOptions' => ['class' => 'link link--page'],
-            'linkContainerOptions' => ['class' => 'pagination-item'],
-        ])?>
+                        'pagination' => $pages,
+                        'options' => ['class' => 'pagination-list',],
+                        'prevPageCssClass' => 'pagination-item mark',
+                        'nextPageCssClass' => 'pagination-item mark',
+                        'nextPageLabel' => '',
+                        'prevPageLabel' => '',
+                        'activePageCssClass' => 'pagination-item--active',
+                        'linkOptions' => ['class' => 'link link--page'],
+                        'linkContainerOptions' => ['class' => 'pagination-item'],
+                    ])?>
     </div>
 </div>
 <div class="right-column">
     <div class="right-card black">
         <div class="search-form">
             <?php $form = ActiveForm::begin([
-                'id' => 'form',
-                'method' => 'get',
-                'options' => ['class' => 'form'],
-                'fieldConfig' => [
-                        'options' => ['tag' => false],
-                    ],
-            ]);
-            ?>
+                            'id' => 'form',
+                            'method' => 'get',
+                            'options' => ['class' => 'form'],
+                            'fieldConfig' => [
+                                    'options' => ['tag' => false],
+                                ],
+                        ]);
+?>
             <h4 class="head-card">Категории</h4>
             <div class = 'form-group'>
-            <?= $form->field($filterForm, 'category',
-                ['template'=> "{input}\n",])
-                ->checkboxList($categories,
-                [
-                    'unselect' => null,
-                    'tag' => false,
-                    'item' => function ($index, $label, $name, $checked, $value)
-                    {
+            <?= $form->field(
+                $filterForm,
+                'category',
+                ['template'=> "{input}\n",]
+            )
+    ->checkboxList(
+        $categories,
+        [
+        'unselect' => null,
+        'tag' => false,
+        'item' => function ($index, $label, $name, $checked, $value) {
 
-                        return
-                            '<div class="checkbox-wrapper"><label class="control-label">'
-                            . Html::checkbox($name, $checked, ['value' => $value]) . $label
-                            . '</label></div>';
-                    }
-                ])
-            ?>
+            return
+                '<div class="checkbox-wrapper"><label class="control-label">'
+                . Html::checkbox($name, $checked, ['value' => $value]) . $label
+                . '</label></div>';
+        }
+                ]
+    )
+?>
             </div>
             <h4 class="head-card">Дополнительно</h4>
             <div class = 'form-group'>
-                <?= $form->field($filterForm , 'additionally',
-                    ['template'=> "{input}\n",])
-                    ->checkboxList($filterForm->additional(),
-                    [
-                        'unselect' => null,
-                        'tag' => false,
-                        'item' => function ($index, $label, $name, $checked, $value)
-                        {
-                            return
-                                '<div class="checkbox-wrapper"><label class="control-label">'
-                                . Html::checkbox($name, $checked, ['value' => $value]) . $label
-                                . '</label></div>';
-                        }
-                    ])
-                ?>
+                <?= $form->field(
+                    $filterForm,
+                    'additionally',
+                    ['template'=> "{input}\n",]
+                )
+        ->checkboxList(
+            $filterForm->additional(),
+            [
+            'unselect' => null,
+            'tag' => false,
+            'item' => function ($index, $label, $name, $checked, $value) {
+                return
+                    '<div class="checkbox-wrapper"><label class="control-label">'
+                    . Html::checkbox($name, $checked, ['value' => $value]) . $label
+                    . '</label></div>';
+            }
+                    ]
+        )
+?>
             </div>
             <h4 class="head-card">Период</h4>
             <div class = 'form-group'>
                 <?= $form->field($filterForm, 'period', ['template'=> "{input}\n"])->dropDownList($filterForm ->period()) ?>
             </div>
-            <?= Html::input('submit',null, 'Искать',['class' => 'button button--blue']) ?>
+            <?= Html::input('submit', null, 'Искать', ['class' => 'button button--blue']) ?>
             <?php ActiveForm::end(); ?>
         </div>
     </div>

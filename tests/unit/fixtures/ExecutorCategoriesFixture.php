@@ -6,5 +6,5 @@ use yii\test\ActiveFixture;
 
 class ExecutorCategoriesFixture extends ActiveFixture
 {
-     public $modelClass = 'app\models\ExecutorCategories';
+    public $modelClass = 'app\models\ExecutorCategories';
 }

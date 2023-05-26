@@ -2,7 +2,6 @@
 
 namespace app\controllers;
 
-
 use app\models\AddResponseForm;
 use app\models\addTaskForm;
 use app\models\CompletedTaskForm;
@@ -11,18 +10,18 @@ use app\models\TaskFiltering;
 use app\models\Categories;
 use app\models\Task;
 use TaskForce\classes\actions\Task\RespondAction;
+use TaskForce\classes\geoinformation\GeoInformationYandex;
 use Yii;
 use yii\helpers\Url;
 use yii\web\UploadedFile;
 
-
 class TasksController extends SecuredController
 {
-    private function categories() {
+    private function categories()
+    {
 
         return Categories::find()->select(['name'])->indexBy('category_id')->column();
     }
-
 
     /**
      * {@inheritdoc}
@@ -55,13 +54,15 @@ class TasksController extends SecuredController
 
         $pages = $provider->getPagination();
 
-        return $this->render('index',
+        return $this->render(
+            'index',
             [
                 'tasksNew' => $tasksNew,
                 'categories' => $this->categories(),
                 'filterForm' => $filterForm,
                 'pages' => $pages,
-            ]);
+            ]
+        );
     }
 
     /**
@@ -80,6 +81,10 @@ class TasksController extends SecuredController
 
         $completedTaskForm = new CompletedTaskForm();
 
+        $taskAddress = new GeoInformationYandex();
+
+        $taskAddress->setCoordinates($task->latitude, $task->longitude);
+
         if ($addResponseForm->load(Yii::$app->request->post()) && $addResponseForm->validate()) {
 
             if ($addResponseForm->CreateResponse($id)) {
@@ -90,15 +95,17 @@ class TasksController extends SecuredController
 
         if($completedTaskForm->load(Yii::$app->request->post()) && $completedTaskForm->validate()) {
 
-            if ($completedTaskForm->CloseTask($task)){
+            if ($completedTaskForm->CloseTask($task)) {
 
                 return $this->redirect('/');
             }
         }
 
-        return $this->render('view',
+        return $this->render(
+            'view',
             [
                 'task' => $task,
+                'taskAddress' => $taskAddress,
                 'responses' => $responses,
                 'addResponseForm' => $addResponseForm,
                 'completedTaskForm' => $completedTaskForm,
@@ -123,19 +130,19 @@ class TasksController extends SecuredController
 
             $filePaths = $addForm->upload();
 
-            if(count($filePaths) && isset($newTaskId)) {
+            if (count($filePaths) && $newTaskId) {
 
                 $addForm->NewTaskFiles($filePaths, $newTaskId);
             }
 
-            if (isset($newTaskId)) {
+            if ($newTaskId) {
 
                 return $this->redirect(Url::to('/tasks/view/' . $newTaskId));
 
             }
         }
 
-        return $this->render('add',['addForm' => $addForm, 'categories' => $this->categories(),]);
+        return $this->render('add', ['addForm' => $addForm, 'categories' => $this->categories(),]);
     }
 
     public function actionRefused()

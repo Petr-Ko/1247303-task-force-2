@@ -9,8 +9,6 @@ use app\models\ContactForm;
 
 class SiteController extends SecuredController
 {
-
-
     /**
      * {@inheritdoc}
      */
@@ -35,7 +33,7 @@ class SiteController extends SecuredController
     public function actionIndex()
     {
         if (!Yii::$app->user->isGuest) {
-            
+
             return $this->redirect('/tasks');
         }
 
@@ -49,7 +47,7 @@ class SiteController extends SecuredController
             ->select('name')
             ->column();
 
-        return $this->render('index', ['category_names' => $category_names, 'executors' => $executors],);
+        return $this->render('index', ['category_names' => $category_names, 'executors' => $executors], );
     }
 
 }

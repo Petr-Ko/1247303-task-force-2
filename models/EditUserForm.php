@@ -21,7 +21,6 @@ class EditUserForm extends Model
     {
         return [
             [['birthday', 'categories' ], 'safe'],
-            [['categories' ], 'required'],
             [['phoneNumber', ], 'string', 'min' => 11, 'max' => 11],
             [['telegram'],'string', 'max' => 50],
             [['birthday', ], 'date','format' => 'php:Y-m-d'],
@@ -57,19 +56,19 @@ class EditUserForm extends Model
 
     public function newAvatar(string $filePath, User $user)
     {
-       $file = new Files();
+        $file = new Files();
 
-       $file->path = $filePath;
+        $file->path = $filePath;
 
-       if ($file->save()) {
+        if ($file->save()) {
 
-           $user->avatar_file_id = $file->file_id;
+            $user->avatar_file_id = $file->file_id;
 
-           if ($user->save()){
+            if ($user->save()) {
 
-               return true;
-           }
-       }
+                return true;
+            }
+        }
     }
     public function uploadAvatar()
     {
@@ -119,7 +118,7 @@ class EditUserForm extends Model
         $user->information = $this->information;
 
 
-        
+
 
         if ($user->save()) {
 

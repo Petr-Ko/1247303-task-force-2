@@ -39,7 +39,7 @@ $this->title = "Task Force, Регистрация нового пользова
         <div class="half-wrapper">
                 <?= $form->field($registrationForm, 'is_executor')->checkbox() ?>
         </div>
-        <?= Html::input('submit',null, 'Создать аккаунт',['class' => 'button button--blue']) ?>
+        <?= Html::input('submit', null, 'Создать аккаунт', ['class' => 'button button--blue']) ?>
         <?php ActiveForm::end(); ?>
     </div>
 </div>

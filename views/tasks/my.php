@@ -13,7 +13,6 @@ use yii\bootstrap5\Html;
 use yii\widgets\ActiveForm;
 use yii\widgets\LinkPager;
 
-
 $this->title = 'Мои задания, Task Force';
 
 ?>

@@ -38,7 +38,7 @@ class AddResponseForm extends Model
         $response->description = $this->description;
         $response->rejected = 0;
 
-        if($response->save()){
+        if($response->save()) {
 
             return $response->response_id;
         }

@@ -19,7 +19,11 @@
         "yiisoft/yii2-bootstrap5": "~2.0.2",
         "yiisoft/yii2-symfonymailer": "~2.0.3",
         "friendsofphp/php-cs-fixer": "^3.14",
-        "yiisoft/yii2-faker": "^2.0"
+        "yiisoft/yii2-faker": "^2.0",
+        "guzzlehttp/guzzle": "^7.7",
+        "geocoder-php/yandex-provider": "^4.5",
+        "php-http/guzzle7-adapter": "^1.0",
+        "php-http/message": "^1.16"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",
@@ -35,7 +39,8 @@
     },
     "config": {
         "allow-plugins": {
-            "yiisoft/yii2-composer" : true
+            "yiisoft/yii2-composer": true,
+            "php-http/discovery": true
         },
         "process-timeout": 1800,
         "fxp-asset": {

@@ -52,7 +52,7 @@ class Task
 
         if($status_available === false) {
             throw new StatusAvailableException("Недопустимый код статуса: $code_status");
-        };  
+        };
 
         $this->customer_id = $customer_id;
         $this->executor_id = $executor_id;

@@ -10,7 +10,6 @@ use yii\widgets\ActiveForm;
 
 class LandingController extends Controller
 {
-
     public $layout = 'landing';
     public function actions()
     {
@@ -43,7 +42,7 @@ class LandingController extends Controller
             }
 
 
-            if($loginForm->validate()){
+            if($loginForm->validate()) {
 
                 $user = $loginForm->getUser();
                 Yii::$app->user->login($user);

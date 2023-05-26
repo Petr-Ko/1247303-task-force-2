@@ -45,7 +45,7 @@ class RegistrationController extends Controller
             $user->is_executor = $registrationForm->is_executor;
             $user->password_hash = Yii::$app->getSecurity()->generatePasswordHash($registrationForm->password);
 
-            if($user->save()){
+            if($user->save()) {
 
                 return $this->goHome();
             }
@@ -53,7 +53,7 @@ class RegistrationController extends Controller
 
         $cities = Cities::find()->select('name')->indexBy('city_id')->column();
 
-        return $this->render('index',['registrationForm' => $registrationForm, 'cities' => $cities]);
+        return $this->render('index', ['registrationForm' => $registrationForm, 'cities' => $cities]);
     }
 
 
