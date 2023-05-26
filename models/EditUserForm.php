@@ -97,17 +97,16 @@ class EditUserForm extends Model
             $lastCategory->delete();
         }
 
+        if ($this->categories) {
 
-        foreach ($this->categories as $newCategory) {
+            foreach ($this->categories as $newCategory) {
 
-            $category = new ExecutorCategories();
-            $category->executor_id = $user->user_id;
-            $category->category_id = $newCategory;
-            $resultSaveCategory = $category->save();
-
+                $category = new ExecutorCategories();
+                $category->executor_id = $user->user_id;
+                $category->category_id = $newCategory;
+                $resultSaveCategory = $category->save();
+            }
         }
-
-
 
         $user->first_name = $this->firstName;
         $user->last_name = $this->lastName;
@@ -116,9 +115,6 @@ class EditUserForm extends Model
         $user->phone = $this->phoneNumber;
         $user->telegram = $this->telegram;
         $user->information = $this->information;
-
-
-
 
         if ($user->save()) {
 

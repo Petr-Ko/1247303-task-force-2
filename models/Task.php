@@ -2,11 +2,7 @@
 
 namespace app\models;
 
-use Geocoder\Query\ReverseQuery;
-use Geocoder\Query\GeocodeQuery;
-use Geocoder\Provider\Yandex\Yandex;
-use Geocoder\StatefulGeocoder;
-use GuzzleHttp\Client;
+
 use TaskForce\classes\geoinformation\GeoInformationYandex;
 use Yii;
 use yii\db\ActiveRecord;
