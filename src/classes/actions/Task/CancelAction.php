@@ -4,7 +4,6 @@ namespace TaskForce\classes\actions\Task;
 
 use app\models\Task;
 
-
 class CancelAction extends AbstractAction
 {
     protected string $name = "Отменить";

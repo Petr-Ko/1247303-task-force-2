@@ -40,23 +40,30 @@ $currentUser = (int) Yii::$app->user->getId();
     <a href="#" class="button button--pink action-btn" data-action="completion">Завершить задание</a>
     <?php endif; ?>
     <div class="task-map">
-        <img class="map" src="/img/map.png"  width="725" height="346" alt="Новый арбат, 23, к. 1">
-        <p class="map-address town">Москва</p>
-        <p class="map-address">Новый арбат, 23, к. 1</p>
+        <?= $this->render('_map', ['model' => $task->coordinates])?>
+        <p class="map-address town"><?= $task->address['city'] ?? "Локация не определена" ?></p>
+        <p class="map-address"><?= $task->address['street'].' '.$task->address['build_number'] ?></p>
     </div>
     <?php if((new ToWorkAction())->isAvailable($task, $currentUser)): ?>
     <h4 class="head-regular">Отклики на задание</h4>
     <?php foreach ($responses as $response): ?>
     <?php if(!$response->rejected): ?>
     <div class="response-card">
-        <img class="customer-photo" src="/img/man-glasses.png" width="146" height="156" alt="Фото заказчиков">
+        <?php $executor = User::findOne($response->executor_id); ?>
+        <img class="customer-photo" src="<?= $executor->avatar ?>" width="146" height="156" alt="Фото заказчиков">
         <div class="feedback-wrapper">
-            <?php $executor = User::findOne($response->executor_id); ?>
             <a href="<?= Url::to(['user/view', 'id' => $executor->user_id]); ?>" class="link link--block link--big">
                 <?= $executor->first_name . ' ' .$executor->last_name; ?>
             </a>
             <div class="response-wrapper">
-                <div class="stars-rating small"><span class="fill-star">&nbsp;</span><span class="fill-star">&nbsp;</span><span class="fill-star">&nbsp;</span><span class="fill-star">&nbsp;</span><span>&nbsp;</span></div>
+                <div class="stars-rating small">
+                    <?php for ($i = 1; $i <= (int) $executor->rating; $i++): ?>
+                        <span class="fill-star"></span>
+                    <?php endfor; ?>
+                    <?php for ($i = 1; $i <= 5 - (int) $executor->rating; $i++): ?>
+                        <span></span>
+                    <?php endfor; ?>
+                </div>
                 <p class="reviews"><?= $executor->getReviews()->count() . ' отзыва' ?></p>
             </div>
             <p class="response-message">
@@ -68,17 +75,21 @@ $currentUser = (int) Yii::$app->user->getId();
             <p class="price price--small"><?= $response->price ?> ₽</p>
         </div>
         <div class="button-popup">
-            <?= Html::a('Принять',['/tasks/response'],
+            <?= Html::a(
+                'Принять',
+                ['/tasks/response'],
                 [
-                    'class' => 'button button--blue button--small',
-                    'data-method' => 'POST',
-                    'data-params' => [
-                        'response_id' => $response->response_id,
-                        'action' => 'accepted'
-                    ],
-                ]
+                                            'class' => 'button button--blue button--small',
+                                            'data-method' => 'POST',
+                                            'data-params' => [
+                                                'response_id' => $response->response_id,
+                                                'action' => 'accepted'
+                                            ],
+                                        ]
             ) ?>
-            <?= Html::a('Отказать',['/tasks/response'],
+            <?= Html::a(
+                'Отказать',
+                ['/tasks/response'],
                 [
                     'class' => 'button button--orange button--small',
                     'data-method' => 'POST',
@@ -108,19 +119,23 @@ $currentUser = (int) Yii::$app->user->getId();
             <dd><?= $task::STATUS_NAMES[$task->status] ?></dd>
         </dl>
     </div>
+    <?php if($task->taskFiles): ?>
     <div class="right-card white file-card">
         <h4 class="head-card">Файлы задания</h4>
         <ul class="enumeration-list">
+            <?php foreach ($task->taskFiles as $file): ?>
             <li class="enumeration-item">
-                <a href="#" class="link link--block link--clip">my_picture.jpg</a>
-                <p class="file-size">356 Кб</p>
+                <a href="<?= Url::to('/'.$file->file->path) ?>"  class="link link--block link--clip" download="">
+                    <?= explode('/', $file->file->path)[1] ?>
+                </a>
+                <p class="file-size"><?=Yii::$app->formatter->asShortSize(filesize($file->file->path))  ?> </p>
             </li>
-            <li class="enumeration-item">
-                <a href="#" class="link link--block link--clip">information.docx</a>
-                <p class="file-size">12 Кб</p>
+
             </li>
+            <?php endforeach; ?>
         </ul>
     </div>
+    <?php endif; ?>
 </div>
 <section class="pop-up pop-up--refusal pop-up--close">
     <div class="pop-up--wrapper">
@@ -130,13 +145,15 @@ $currentUser = (int) Yii::$app->user->getId();
             Вы собираетесь отказаться от выполнения этого задания.<br>
             Это действие плохо скажется на вашем рейтинге и увеличит счетчик проваленных заданий.
         </p>
-        <?= Html::a('Отказаться',['/tasks/refused'],
+        <?= Html::a(
+            'Отказаться',
+            ['/tasks/refused'],
             [
-                'class' => 'button button--pop-up button--orange',
-                'data-method' => 'POST',
-                'data-params' => [
-                    'task_id' => $task->task_id,
-                ],
+            'class' => 'button button--pop-up button--orange',
+            'data-method' => 'POST',
+            'data-params' => [
+            'task_id' => $task->task_id,
+            ],
             ]
         ) ?>
         <div class="button-container">
@@ -153,14 +170,14 @@ $currentUser = (int) Yii::$app->user->getId();
         </p>
         <div class="completion-form pop-up--form regular-form">
             <?php $CompletedForm = ActiveForm::begin([
-                'id' => 'form',
-                'method' => 'post',
-                'options' => ['class' => 'form-group'],
-                'fieldConfig' => [
-                    'options' => ['class' => 'form-group'],
-                    'template' => "{label}\n{input}\n{error}\n",
-                ],
-            ]); ?>
+        'id' => 'form',
+        'method' => 'post',
+        'options' => ['class' => 'form-group'],
+        'fieldConfig' => [
+            'options' => ['class' => 'form-group'],
+            'template' => "{label}\n{input}\n{error}\n",
+        ],
+        ]); ?>
             <?= $CompletedForm->field($completedTaskForm, 'text')->textarea() ?>
             <?= $CompletedForm->field($completedTaskForm, 'score')->input('number') ?>
             <?= Html::input('submit', null, 'Завершить', ['class' => 'button button--pop-up button--blue']); ?>
@@ -180,14 +197,14 @@ $currentUser = (int) Yii::$app->user->getId();
         </p>
         <div class="addition-form pop-up--form regular-form">
             <?php $ResponseForm = ActiveForm::begin([
-                    'id' => 'form',
-                    'method' => 'post',
-                    'options' => ['class' => 'form-group'],
-                    'fieldConfig' => [
-                        'options' => ['class' => 'form-group'],
-                        'template' => "{label}\n{input}\n{error}\n",
-                        ],
-            ]); ?>
+            'id' => 'form',
+            'method' => 'post',
+            'options' => ['class' => 'form-group'],
+            'fieldConfig' => [
+                'options' => ['class' => 'form-group'],
+                'template' => "{label}\n{input}\n{error}\n",
+                ],
+        ]); ?>
                 <?= $ResponseForm->field($addResponseForm, 'description')->textarea() ?>
                 <?= $ResponseForm->field($addResponseForm, 'price')->input('number') ?>
                 <?= Html::input('submit', null, 'Завершить', ['class' => 'button button--pop-up button--blue']); ?>

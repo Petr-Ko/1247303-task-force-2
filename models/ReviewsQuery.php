@@ -33,4 +33,10 @@ class ReviewsQuery extends ActiveQuery
     {
         return parent::one($db);
     }
+
+    public function sumScore()
+    {
+        return $this->sum('score');
+
+    }
 }

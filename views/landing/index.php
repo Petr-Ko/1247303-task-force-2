@@ -8,7 +8,6 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 
-
 ?>
 <header class=" page-header--index">
     <div class="main-container page-header__container page-header__container--index">
@@ -197,7 +196,7 @@ use yii\widgets\ActiveForm;
                 'class' => '',
             ],
             'fieldConfig' => [
-                
+
                 'labelOptions' => ['class' => 'form-modal-description',],
                 'inputOptions' => ['class' => 'enter-form-email input input-middle',],
                 'template' => "<p>{label}\n{input}\n{error}\n</p>",
@@ -206,7 +205,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($loginForm, 'email')->input('email') ?>
     <?= $form->field($loginForm, 'password')->input('password') ?>
-    <?= Html::input('submit',null, 'Войти',['class' => 'button']) ?>
+    <?= Html::input('submit', null, 'Войти', ['class' => 'button']) ?>
     <?php ActiveForm::end();?>
     <button class="form-modal-close" type="button">Закрыть</button>
 </section>

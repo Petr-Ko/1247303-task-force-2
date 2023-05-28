@@ -2,7 +2,6 @@
 
 namespace app\models;
 
-
 use app\models\User;
 
 class UserRegistrationForm extends User

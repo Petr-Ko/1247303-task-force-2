@@ -3,6 +3,7 @@
 namespace app\models;
 
 use DateTime;
+use TaskForce\classes\geoinformation\GeoInformationYandex;
 use Yii;
 use yii\base\Model;
 
@@ -15,6 +16,7 @@ class AddTaskForm extends Model
     public $price;
     public $end_date;
     public $files;
+
 
     public function formName()
     {
@@ -58,14 +60,24 @@ class AddTaskForm extends Model
         $task->latitude = '.';
         $task->longitude = '.';
         $task->end_date = $this->end_date;
-        $task->price = (integer) $this->price;
+        $task->price = (int) $this->price;
         $task->category_id = $this->category;
 
-        if($task->save()) return $task->task_id;
+        if ($this->location) {
+
+            $coordinates = new GeoInformationYandex();
+            $coordinates->setAddress($this->location);
+            $task->longitude = $coordinates->longitude;
+            $task->latitude = $coordinates->latitude;
+        }
+
+        if ($task->save()) {
+            return $task->task_id;
+        }
 
     }
 
-    public function NewTaskFiles(array $filePaths, int $newTaskId)
+    public function NewTaskFiles($filePaths, int $newTaskId)
     {
         $file = new Files();
 
@@ -103,4 +115,5 @@ class AddTaskForm extends Model
 
         return $filePaths;
     }
+
 }

@@ -5,6 +5,7 @@ namespace app\models;
 use DateTime;
 use Yii;
 use yii\db\ActiveRecord;
+use yii\helpers\Url;
 use yii\web\IdentityInterface;
 
 /**
@@ -85,7 +86,7 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      *
      */
-    public function getAge():?int
+    public function getAge(): ?int
     {
         $today = new DateTime('now');
 
@@ -99,6 +100,38 @@ class User extends ActiveRecord implements IdentityInterface
         }
         return null;
     }
+
+    public function getAvatar()
+    {
+
+        if (!$this->avatar_file_id) {
+
+            return Url::to('/img/avatars/default.jpg');
+        }
+
+        return  Url::to('/' . $this->files->path);
+    }
+
+    /**
+     *
+     */
+
+    public function getRating()
+    {
+        $sumScore = (int)$this->getReviews()->sumScore();
+        $amountReviews = (int) $this->getReviews()->count();
+        $amountFailedTasks = (int) $this->getTasks()->failed()->count();
+
+        if ($amountReviews && $amountFailedTasks) {
+
+            $rating = $sumScore/($amountReviews + $amountFailedTasks);
+            return round($rating, 2, PHP_ROUND_HALF_UP);
+        } else {
+            return 0;
+        }
+
+    }
+
 
     /**
      * Gets query for [[Cities]].

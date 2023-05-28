@@ -14,7 +14,7 @@ class ImportCsv extends \SplFileObject
     * Записывает данные из CSV-файла (экземпляра данного класса).
     * @param string $table_name Имя таблицы БД, в которую необходимо импортировать данные из файла CSV;
     */
-    public function SetDataInDb(string $table_name):void
+    public function SetDataInDb(string $table_name): void
     {
         $table_name_available = in_array($table_name, $this::AVAILABLE_TABLE_DB);
 
@@ -31,7 +31,7 @@ class ImportCsv extends \SplFileObject
 
             $one_line = array_combine($title, $this->fgetcsv());
 
-            array_push($array_from_csv, $one_line);   
+            array_push($array_from_csv, $one_line);
         }
 
         if($table_name === "categories") {
@@ -50,9 +50,9 @@ class ImportCsv extends \SplFileObject
         }
     }
 
-    private function addTasksInDb(?array $data):void
+    private function addTasksInDb(?array $data): void
     {
-        $request = 
+        $request =
             "INSERT INTO 
                 `tasks` (
                     `status`, 
@@ -74,9 +74,9 @@ class ImportCsv extends \SplFileObject
         $this->setRequestDb($request);
     }
 
-    private function addCityInDb(?array $data):void
+    private function addCityInDb(?array $data): void
     {
-        $request = 
+        $request =
             "INSERT INTO 
                 `cities` (
                     `name`, 
@@ -90,10 +90,10 @@ class ImportCsv extends \SplFileObject
         $this->setRequestDb($request);
     }
 
-    private function addCategorieInDb(?array $data):void
+    private function addCategorieInDb(?array $data): void
     {
-        
-        $request = 
+
+        $request =
             "INSERT INTO 
                 `categories` (
                     `name`, 
@@ -109,7 +109,7 @@ class ImportCsv extends \SplFileObject
         $this->setRequestDb($request);
     }
 
-    private function setRequestDb(string $request):void
+    private function setRequestDb(string $request): void
     {
         $connect = mysqli_connect('localhost', 'root', '', 'task_force');
 
@@ -125,29 +125,8 @@ class ImportCsv extends \SplFileObject
             exit();
         }
 
-        print("Запись '$request' добавлена в БД;"."<br>" );
+        print("Запись '$request' добавлена в БД;"."<br>");
     }
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

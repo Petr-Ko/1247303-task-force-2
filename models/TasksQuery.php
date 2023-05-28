@@ -18,7 +18,7 @@ class TasksQuery extends ActiveQuery
 
     public function new()
     {
-    return $this->andWhere('[[status]]="new"');
+        return $this->andWhere('[[status]]="new"');
     }
 
     public function done()

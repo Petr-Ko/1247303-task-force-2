@@ -9,7 +9,6 @@ use app\models\User;
 use yii\bootstrap5\Html;
 use yii\helpers\Url;
 
-
 AppAsset::register($this);
 
 $this->registerCsrfMetaTags();
@@ -45,7 +44,7 @@ if ($id = Yii::$app->user->getId()) {
         <div class="nav-wrapper">
             <ul class="nav-list">
                 <li class="list-item list-item--active">
-                    <a class="link link--nav" >Новое</a>
+                    <a href="<?= Url::to('/tasks') ?>" class="link link--nav" >Новые</a>
                 </li>
                 <li class="list-item">
                     <a href="#" class="link link--nav" >Мои задания</a>
@@ -56,21 +55,21 @@ if ($id = Yii::$app->user->getId()) {
                 </li>
                 <?php endif; ?>
                 <li class="list-item">
-                    <a href="#" class="link link--nav" >Настройки</a>
+                    <a href="<?= Url::to('/user/edit') ?>" class="link link--nav" >Настройки</a>
                 </li>
             </ul>
         </div>
     </nav>
     <div class="user-block">
         <a href="#">
-            <img class="user-photo" src="/img/man-glasses.png" width="55" height="55" alt="Аватар">
+            <img class="user-photo" src="<?= $user->avatar ?>" width="55" height="55" alt="Аватар">
         </a>
         <div class="user-menu">
             <p class="user-name"><?= $user->first_name ?></p>
             <div class="popup-head">
                 <ul class="popup-menu">
                     <li class="menu-item">
-                        <a href="#" class="link">Настройки</a>
+                        <a href="<?= Url::to('/user/edit') ?>" class="link">Настройки</a>
                     </li>
                     <li class="menu-item">
                         <a href="#" class="link">Связаться с нами</a>
@@ -84,7 +83,7 @@ if ($id = Yii::$app->user->getId()) {
     </div>
 </header>
 <?php endif; ?>
-<main class="main-content container">
+<main class="main-content container <?= (Yii::$app->request->url === '/user/edit') ? 'main-content--left container' : '' ?>">
     <?= $content ?>
 </main>
 <?php $this->endBody() ?>

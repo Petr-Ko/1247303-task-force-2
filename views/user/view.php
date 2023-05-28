@@ -9,19 +9,23 @@ use app\models\Categories;
 use app\models\Task;
 use yii\helpers\Url;
 
-
 $this->title = 'Task Force, Пользователь: ' . $user->first_name .' '. $user->last_name;
-
 ?>
-
 <div class="left-column">
     <h3 class="head-main"><?= $user->first_name .' '. $user->last_name ?></h3>
     <div class="user-card">
         <div class="photo-rate">
-            <img class="card-photo" src="/img/man-glasses.png" width="191" height="190" alt="Фото пользователя">
+            <img class="card-photo" src="<?= $user->avatar ?>" width="191" height="190" alt="Фото пользователя">
             <div class="card-rate">
-                <div class="stars-rating big"><span class="fill-star">&nbsp;</span><span class="fill-star">&nbsp;</span><span class="fill-star">&nbsp;</span><span class="fill-star">&nbsp;</span><span>&nbsp;</span></div>
-                <span class="current-rate">4.23</span>
+                <div class="stars-rating big">
+                    <?php for ($i = 1; $i <= (int) $user->rating; $i++): ?>
+                        <span class="fill-star"></span>
+                    <?php endfor; ?>
+                    <?php for ($i = 1; $i <= 5 - (int) $user->rating; $i++): ?>
+                        <span></span>
+                    <?php endfor; ?>
+                </div>
+                <span class="current-rate"><?= $user->rating ?></span>
             </div>
         </div>
         <p class="user-description"><?= $user->information?></p>
@@ -47,13 +51,20 @@ $this->title = 'Task Force, Пользователь: ' . $user->first_name .' '
     <h4 class="head-regular">Отзывы заказчиков</h4>
     <?php foreach ($reviews as $review): ?>
     <div class="response-card">
-        <img class="customer-photo" src="/img/man-coat.png" width="120" height="127" alt="Фото заказчиков">
-        <div class="feedback-wrapper">
+        <img class="customer-photo" src="<?= $review->user->avatar  ?>" width="120" height="127" alt="Фото заказчиков">
+        <div class="feedback-wrapper"
             <p class="feedback"><?= $review->text ?></p>
             <p class="task">Задание «<a href="<?= Url::to(['/tasks/view', 'id' => $review->task->task_id ]) ?>" class="link link--small"><?= $review->task->title ?></a>» <?= Task::STATUS_NAMES[$review->task->status] ?></p>
         </div>
         <div class="feedback-wrapper">
-            <div class="stars-rating small"><span class="fill-star">&nbsp;</span><span class="fill-star">&nbsp;</span><span class="fill-star">&nbsp;</span><span class="fill-star">&nbsp;</span><span>&nbsp;</span></div>
+            <div class="stars-rating small">
+                <?php for ($i = 1; $i <= (int) $review->score; $i++): ?>
+                <span class="fill-star"></span>
+                <?php endfor; ?>
+                <?php for ($i = 1; $i <= 5 - (int) $review->score; $i++): ?>
+                    <span></span>
+                <?php endfor; ?>
+            </div>
             <p class="info-text"><span class="current-time"><?php echo Yii::$app->formatter->asRelativeTime($review->add_date); ?></p>
         </div>
     </div>
@@ -68,10 +79,10 @@ $this->title = 'Task Force, Пользователь: ' . $user->first_name .' '
                 <?=
                     $user->getTasks()->done()->count() .' выполнено '.
                     $user->getTasks()->failed()->count().' провалено'
-                ?>
+?>
             </dd>
             <dt>Место в рейтинге</dt>
-            <dd>25 место</dd>
+            <dd><?= $user->rating ?> место</dd>
             <dt>Дата регистрации</dt>
             <dd><?= date_format(date_create($user->add_date), 'd F Y, H:i')?></dd>
             <dt>Статус</dt>

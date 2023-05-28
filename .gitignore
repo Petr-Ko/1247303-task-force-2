@@ -43,3 +43,4 @@ tests/_support/_generated
 
 #users uploads folder
 /web/uploads/
+/.php-cs-fixer.cache

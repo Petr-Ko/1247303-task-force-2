@@ -9,9 +9,8 @@ use yii\db\ActiveRecord;
  * This is the model class for table "cities".
  *
  * @property int $city_id
- * @property string $name
- * @property string $latitude
- * @property string $longitude
+ * @property float $name
+ * @property float $longitude
  *
  * @property User $city
  */
@@ -31,8 +30,9 @@ class Cities extends ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'latitude', 'longitude'], 'required'],
+            [['name', ], 'required'],
             [['name', 'latitude', 'longitude'], 'string', 'max' => 50],
+            [['latitude', 'longitude'], 'double'],
             [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['city_id' => 'city_id']],
         ];
     }
