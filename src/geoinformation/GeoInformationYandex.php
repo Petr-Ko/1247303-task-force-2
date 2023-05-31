@@ -1,6 +1,6 @@
 <?php
 
-namespace TaskForce\classes\geoinformation;
+namespace TaskForce\geoinformation;
 
 use Geocoder\Location;
 use Geocoder\Provider\Yandex\Yandex;

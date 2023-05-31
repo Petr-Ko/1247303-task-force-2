@@ -2,8 +2,10 @@
 /** @var yii\web\View $this */
 /** @var yii */
 /** @var $loginForm */
+/** @var $AuthVkUrl */
 
 
+use yii\authclient\widgets\AuthChoice;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
@@ -206,6 +208,7 @@ use yii\widgets\ActiveForm;
     <?= $form->field($loginForm, 'email')->input('email') ?>
     <?= $form->field($loginForm, 'password')->input('password') ?>
     <?= Html::input('submit', null, 'Войти', ['class' => 'button']) ?>
+    <?= Html::a('Войти ВК',$AuthVkUrl,['class' => 'button'])?>
     <?php ActiveForm::end();?>
     <button class="form-modal-close" type="button">Закрыть</button>
 </section>

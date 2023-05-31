@@ -43,6 +43,16 @@ $config = [
                 ],
             ],
         ],
+        'authClientCollection' => [
+            'class' => 'yii\authclient\Collection',
+            'clients' => [
+                'vkontakte' => [
+                    'class' => 'yii\authclient\clients\VKontakte',
+                    'clientId' => '51661227',
+                    'clientSecret' => 'UTbku0zOJyU2wPYdbDii',
+                ],
+            ],
+        ],
         'db' => $db,
 
         'urlManager' => [
@@ -52,7 +62,9 @@ $config = [
             'rules' => [
                 '//' => '/',
                 '/tasks/view/<id:\d+>' => 'tasks/view',
-                '/user/view/<id:\d+>' => 'user/view'
+                '/tasks/my/<status:[\w\-]+>' => 'tasks/my',
+                '/user/view/<id:\d+>' => 'user/view',
+
 
             ],
         ],

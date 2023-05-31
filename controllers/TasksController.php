@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use DateTime;
 use app\models\AddResponseForm;
 use app\models\addTaskForm;
 use app\models\CompletedTaskForm;
@@ -9,8 +10,9 @@ use app\models\Responses;
 use app\models\TaskFiltering;
 use app\models\Categories;
 use app\models\Task;
-use TaskForce\classes\actions\Task\RespondAction;
-use TaskForce\classes\geoinformation\GeoInformationYandex;
+use app\models\User;
+use TaskForce\actions\Task\RespondAction;
+use TaskForce\geoinformation\GeoInformationYandex;
 use Yii;
 use yii\helpers\Url;
 use yii\web\UploadedFile;
@@ -193,9 +195,49 @@ class TasksController extends SecuredController
         }
     }
 
-    public function actionMy()
+    public function actionMy($status)
     {
-        return $this->render('my');
+        $tasks = null;
+
+        $currentUserId = Yii::$app->user->identity;
+
+        $is_executor = $currentUserId->is_executor;
+
+
+        if ($status === 'new') {
+
+            $tasks = Task::find()->where(['task_id' => $currentUserId, 'status' => Task::STATUS_NEW])->all();
+
+        }
+
+        if ($status === 'progress') {
+
+            $tasks = Task::find()->where(['task_id' => $currentUserId, 'status' => Task::STATUS_IN_PROGRESS])->all();
+
+        }
+
+        if ($status === 'done') {
+
+            $tasks = Task::find()->where(['task_id' => $currentUserId, 'status' => Task::STATUS_DONE])->all();
+
+        }
+
+        if ($status === 'overdue') {
+
+            $tasks = Task::find()
+                ->where(
+                    [
+                        'task_id' => $currentUserId,
+                        'status' => Task::STATUS_IN_PROGRESS,
+                    ])
+                ->andFilterWhere([
+                    '<=', 'end_date', date_format(new DateTime('now'), 'Y-m-d')
+                ])
+                ->all();
+        }
+
+        return $this->render('my', ['tasks' => $tasks, 'is_executor' => $is_executor, ]);
+
     }
 
 

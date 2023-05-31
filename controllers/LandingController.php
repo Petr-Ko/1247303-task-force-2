@@ -3,7 +3,9 @@
 namespace app\controllers;
 
 use app\models\LoginForm;
+use TaskForce\extauth\AuthVk;
 use Yii;
+use yii\authclient\clients\VKontakte;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
@@ -26,9 +28,8 @@ class LandingController extends Controller
 
     public function actionIndex()
     {
-
-
         $loginForm = new LoginForm();
+        $AuthVkUrl = (new AuthVk())->getAuthUrl();
 
         if(Yii::$app->request->getIsPost()) {
 
@@ -51,7 +52,7 @@ class LandingController extends Controller
 
         }
 
-        return  $this->render('index', ['loginForm' => $loginForm]);
+        return  $this->render('index', ['loginForm' => $loginForm, 'AuthVkUrl' => $AuthVkUrl]);
     }
 
 }
