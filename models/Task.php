@@ -3,7 +3,7 @@
 namespace app\models;
 
 
-use TaskForce\classes\geoinformation\GeoInformationYandex;
+use TaskForce\geoinformation\GeoInformationYandex;
 use Yii;
 use yii\db\ActiveRecord;
 

@@ -9,10 +9,10 @@
 
 
 use app\models\User;
-use TaskForce\classes\actions\Task\CompletedAction;
-use TaskForce\classes\actions\Task\RefuseAction;
-use TaskForce\classes\actions\Task\RespondAction;
-use TaskForce\classes\actions\Task\ToWorkAction;
+use TaskForce\actions\Task\CompletedAction;
+use TaskForce\actions\Task\RefuseAction;
+use TaskForce\actions\Task\RespondAction;
+use TaskForce\actions\Task\ToWorkAction;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
@@ -112,7 +112,7 @@ $currentUser = (int) Yii::$app->user->getId();
             <dt>Категория</dt>
             <dd><?= $task->category->name ?></dd>
             <dt>Дата публикации</dt>
-            <dd><?php echo Yii::$app->formatter->asRelativeTime($task->add_date); ?></dd>
+            <dd><?= Yii::$app->formatter->asRelativeTime($task->add_date); ?></dd>
             <dt>Срок выполнения</dt>
             <dd><?= date_format(date_create($task->end_date), 'd F Y, H:i')?></dd>
             <dt>Статус</dt>

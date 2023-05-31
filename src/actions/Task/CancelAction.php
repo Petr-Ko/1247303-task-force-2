@@ -1,20 +1,24 @@
 <?php
 
-namespace TaskForce\classes\actions\Task;
+namespace TaskForce\actions\Task;
 
 use app\models\Task;
 
-class ToWorkAction extends AbstractAction
+class CancelAction extends AbstractAction
 {
-    protected string $name = "Принять";
-    protected string $code = "to_work";
+    protected string $name = "Отменить";
+    protected string $code = "Cancel";
+
 
     public function isAvailable(Task $task, int $currentUserId): bool
     {
+
         if ($currentUserId === $task->customer_id && $task->status === $task::STATUS_NEW) {
             return true;
         }
 
         return false;
     }
+
+
 }

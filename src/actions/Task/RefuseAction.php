@@ -1,6 +1,6 @@
 <?php
 
-namespace TaskForce\classes\actions\Task;
+namespace TaskForce\actions\Task;
 
 use app\models\Task;
 

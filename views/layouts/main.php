@@ -47,7 +47,7 @@ if ($id = Yii::$app->user->getId()) {
                     <a href="<?= Url::to('/tasks') ?>" class="link link--nav" >Новые</a>
                 </li>
                 <li class="list-item">
-                    <a href="#" class="link link--nav" >Мои задания</a>
+                    <a href="<?= Url::to('/tasks/my/progress') ?>" class="link link--nav" >Мои задания</a>
                 </li>
                 <?php if(!Yii::$app->user->identity->is_executor): ?>
                 <li class="list-item">
